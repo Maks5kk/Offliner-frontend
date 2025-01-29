@@ -11,7 +11,7 @@ import Basket from './pages/basket/Basket';
 import Auth from './pages/auth/Auth';
 import Profile from './pages/profile/Profile';
 import Admin from './pages/admin/Admin';
-import History from './pages/history/History';
+import Favorite from './pages/favorite/Favorite';
 
 function App() {
 
@@ -26,7 +26,7 @@ function App() {
         <Route path="/auth" element={<Auth/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/administrator" element={<Admin/>}/>
-        <Route path="/history" element={<History/>}/>
+        <Route path="/favorite" element={<Favorite/>}/>
       </Routes>
     </BrowserRouter>
     </>

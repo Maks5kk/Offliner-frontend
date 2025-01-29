@@ -1,12 +1,12 @@
 import Navbar from "../../components/navbar/Navbar"
 
-const History = ()=>{
+const Favorite = ()=>{
     return(
         <div>
             <Navbar/>
-            HistoryPage
+            FavoritePage
         </div>
     )
 }
 
-export default History
+export default Favorite
