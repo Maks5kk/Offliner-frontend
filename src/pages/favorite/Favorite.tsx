@@ -1,12 +1,3 @@
-import Navbar from "../../components/navbar/Navbar"
-
-const Favorite = ()=>{
-    return(
-        <div>
-            <Navbar/>
-            FavoritePage
-        </div>
-    )
+export default function Favorite() {
+  return <div>FavoritePage</div>;
 }
-
-export default Favorite
