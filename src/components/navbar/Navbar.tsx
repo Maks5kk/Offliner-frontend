@@ -17,8 +17,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import { LinkComponent } from "../ui/Link";
+import { routes } from "../../constants/path";
 
-const settings = ["Profile", "Administrator", "Logout"];
+const settings = [
+  { label: "Profile", route: routes.profile },
+  { label: "Administrator", route: routes.admin },
+  { label: "Logout", route: '' },
+];
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -27,25 +32,23 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   },
 }));
 
-function ResponsiveAppBar() {
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+function Navbar() {
+  const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+    setAnchorUser(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setAnchorUser(null);
   };
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl" sx={{ height: 100 }}>
+      <Container maxWidth="xl">
         <Toolbar
           disableGutters
-          sx={{ display: "flex", justifyContent: "space-between", height: 100 }}
+          sx={{ display: "flex", justifyContent: "space-between" }}
         >
           <LinkComponent to={"/"} sx={{ mr: "1", textDecoration: "none" }}>
             <Typography
@@ -111,7 +114,7 @@ function ResponsiveAppBar() {
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
-              anchorEl={anchorElUser}
+              anchorEl={anchorUser}
               anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",
@@ -121,17 +124,18 @@ function ResponsiveAppBar() {
                 vertical: "top",
                 horizontal: "right",
               }}
-              open={Boolean(anchorElUser)}
+              open={Boolean(anchorUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
                 <LinkComponent
+                  key={setting.label}
                   sx={{ textDecoration: "none" }}
-                  to={`/${setting.toLocaleLowerCase()}`}
+                  to={`${setting.route}`}
                 >
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <Typography sx={{ textAlign: "center" }}>
-                      {setting}
+                      {setting.label}
                     </Typography>
                   </MenuItem>
                 </LinkComponent>
@@ -143,4 +147,4 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Navbar;

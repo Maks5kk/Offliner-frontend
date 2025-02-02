@@ -1,12 +1,3 @@
-import Navbar from "../../components/navbar/Navbar"
-
-const Basket = ()=>{
-    return (
-        <div>
-            <Navbar/>
-            BasketPage
-        </div>
-    )
+export default function Basket() {
+  return <div>BasketPage</div>;
 }
-
-export default Basket
