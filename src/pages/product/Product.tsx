@@ -12,7 +12,6 @@ import {
   TextField,
   ButtonGroup,
 } from "@mui/material";
-import Navbar from "../../components/navbar/Navbar";
 import { LaptopMac, ShoppingBag } from "@mui/icons-material";
 import { useState } from "react";
 
@@ -79,7 +78,6 @@ const ProductPage = () => {
 
   return (
     <Box bgcolor="#f5f5f5">
-      <Navbar />
       <Box display="flex" justifyContent="center" alignItems="flex-start" p={4}>
         <Card sx={{ maxWidth: 1200, p: 3, boxShadow: 3 }}>
           <Grid container spacing={4}>
@@ -110,7 +108,6 @@ const ProductPage = () => {
                   sx={{
                     mb: 2,
                     p: 2,
-                    fontFamily: "Montserrat",
                     fontSize: 16,
                     fontWeight: 400,
                     backgroundColor: "lightgray",
