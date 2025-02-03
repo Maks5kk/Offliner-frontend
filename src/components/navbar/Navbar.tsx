@@ -18,11 +18,12 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const settings = [
   { label: "Profile", route: routes.profile },
   { label: "Administrator", route: routes.admin },
-  { label: "Logout", route: '' },
+  { label: "Logout", route: routes.logout },
 ];
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
@@ -34,6 +35,8 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 
 function Navbar() {
   const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null);
+
+  const { authUser } = useAuthStore();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorUser(event.currentTarget);
@@ -91,56 +94,77 @@ function Navbar() {
               id="search"
             />
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <LinkComponent to={"/favorite"}>
-              <IconButton aria-label="favorite" sx={{ mr: 2 }}>
-                <StyledBadge badgeContent={4} color="secondary">
-                  <FavoriteIcon />
-                </StyledBadge>
-              </IconButton>
-            </LinkComponent>
-            <LinkComponent to={"/basket"}>
-              <IconButton aria-label="cart" sx={{ mr: 3 }}>
-                <StyledBadge badgeContent={4} color="secondary">
-                  <ShoppingCartIcon />
-                </StyledBadge>
-              </IconButton>
-            </LinkComponent>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <LinkComponent
-                  key={setting.label}
-                  sx={{ textDecoration: "none" }}
-                  to={`${setting.route}`}
-                >
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography sx={{ textAlign: "center" }}>
-                      {setting.label}
-                    </Typography>
-                  </MenuItem>
+          <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
+            {authUser ? (
+              <>
+                <LinkComponent to={"/favorite"}>
+                  <IconButton aria-label="favorite" sx={{ mr: 2 }}>
+                    <StyledBadge badgeContent={4} color="secondary">
+                      <FavoriteIcon />
+                    </StyledBadge>
+                  </IconButton>
                 </LinkComponent>
-              ))}
-            </Menu>
+                <LinkComponent to={"/basket"}>
+                  <IconButton aria-label="cart" sx={{ mr: 3 }}>
+                    <StyledBadge badgeContent={4} color="secondary">
+                      <ShoppingCartIcon />
+                    </StyledBadge>
+                  </IconButton>
+                </LinkComponent>
+                <Typography sx={{ mr: 2, color: "white", fontWeight: "bold" }}>
+                  {authUser.name} {authUser.lastName}
+                </Typography>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt={authUser.firstName}
+                      src={
+                        authUser.avatar || "/static/images/avatar/default.jpg"
+                      }
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <LinkComponent
+                      key={setting.label}
+                      sx={{ textDecoration: "none" }}
+                      to={`${setting.route}`}
+                    >
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography sx={{ textAlign: "center" }}>
+                          {setting.label}
+                        </Typography>
+                      </MenuItem>
+                    </LinkComponent>
+                  ))}
+                </Menu>
+              </>
+            ) : (
+              <LinkComponent to={"/login"}>
+                <IconButton
+                  aria-label="login"
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  Login
+                </IconButton>
+              </LinkComponent>
+            )}
           </Box>
         </Toolbar>
       </Container>
