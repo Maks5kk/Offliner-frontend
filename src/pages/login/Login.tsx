@@ -12,28 +12,53 @@ import {
 import { LinkComponent } from "../../components/ui/Link";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
-const EMAIL_REGEXP =
-  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-
-type Inputs = {
+interface Inputs {
   email: string;
   password: string;
-};
+  formError?: string;
+}
 
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+    setError,
+    clearErrors,
+    watch,
+  } = useForm<Inputs>({
+    mode: "onChange",
+  });
 
-  const { login, isLoggingIn } = useAuthStore();
+  const { login, authUser } = useAuthStore();
   const navigate = useNavigate();
 
+  const { email, password } = watch();
+
+  useEffect(() => {
+    clearErrors("formError");
+  }, [clearErrors, email, password]);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await login(data);
-    navigate("/");
+    try {
+      await login(data);
+      if (authUser) {
+        navigate("/");
+      }
+    } catch (error: any) {
+      console.log("Login error:", error);
+      if (error?.message) {
+        setError("formError", {
+          type: "manual",
+          message: error.message || "Invalid credentials",
+        });
+      } else {
+        toast.error("An unknown error occurred");
+      }
+    }
   };
 
   return (
@@ -61,10 +86,7 @@ export default function Login() {
               <TextField
                 label="Email"
                 variant="outlined"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: { value: EMAIL_REGEXP, message: "Invalid email" },
-                })}
+                {...register("email", { required: "Email is required" })}
                 error={!!errors.email}
               />
               <FormHelperText error>{errors.email?.message}</FormHelperText>
@@ -75,23 +97,22 @@ export default function Login() {
                 type="password"
                 label="Password"
                 variant="outlined"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: { value: 8, message: "Minimum 8 characters" },
-                })}
+                {...register("password", { required: "Password is required" })}
                 error={!!errors.password}
               />
               <FormHelperText error>{errors.password?.message}</FormHelperText>
             </FormControl>
 
-            <Button
-              sx={{ mt: 3 }}
-              type="submit"
-              variant="contained"
-              fullWidth
-              disabled={isLoggingIn}
-            >
-              {isLoggingIn ? "Loading..." : "Login"}
+            {errors.formError && (
+              <FormControl fullWidth margin="normal">
+                <FormHelperText error>
+                  {errors.formError.message}
+                </FormHelperText>
+              </FormControl>
+            )}
+
+            <Button sx={{ mt: 3 }} type="submit" variant="contained" fullWidth>
+              Login
             </Button>
 
             <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>

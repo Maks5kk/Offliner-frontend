@@ -27,8 +27,7 @@ interface LoginData {
 }
 
 interface SignupData {
-  name: string;
-  lastName: string;
+  fullName: string;
   email: string;
   password: string;
 }
@@ -73,11 +72,17 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoggingIn: true });
     try {
       const response = await api.post("/auth/login", data);
-      set({ authUser: response.data });
-      toast.success("Logged in successfully!");
+      if (response.data) {
+        set({ authUser: response.data });
+        toast.success("Login successful!");
+      } else {
+        set({ authUser: null });
+      }
     } catch (error: unknown) {
+      set({ authUser: null });
       if (error && (error as ErrorResponse).response) {
-        toast.error((error as ErrorResponse).response.data.message);
+        const { message } = (error as ErrorResponse).response.data;
+        throw { message };
       } else {
         toast.error("An unknown error occurred");
       }

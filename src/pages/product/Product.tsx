@@ -70,7 +70,6 @@ const similarProducts = [
 
 const ProductPage = () => {
   const [selectedColor, setSelectedColor] = useState("Space Gray");
-  const [hovered, setHovered] = useState(false);
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color);
@@ -88,12 +87,12 @@ const ProductPage = () => {
                   width: "100%",
                   borderRadius: 2,
                   transition: "transform 0.3s ease-in-out",
-                  transform: hovered ? "scale(1.1)" : "scale(1)",
+                  ":hover": {
+                    transform: "scale(1.1)",
+                  },
                 }}
                 image={product.image}
                 alt={product.title}
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
               />
             </Grid>
 

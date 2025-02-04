@@ -13,17 +13,14 @@ import { LinkComponent } from "../../components/ui/Link";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../../store/useAuthStore";
+import { EMAIL_REGEXP } from "../../constants/regex";
 
-const EMAIL_REGEXP =
-  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-
-type Inputs = {
-  name: string;
-  lastName: string;
+interface Inputs {
+  fullName: string;
   email: string;
   password: string;
   confirmPassword: string;
-};
+}
 
 export default function Register() {
   const {
@@ -33,8 +30,7 @@ export default function Register() {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      name: "",
-      lastName: "",
+      fullName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -50,13 +46,12 @@ export default function Register() {
       const cleanedData = {
         ...data,
         email: data.email.trim(),
-        name: data.name.trim(),
-        lastName: data.lastName.trim(),
+        fullName: data.fullName.trim(),
       };
 
       signup(cleanedData);
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Registration error:", error);
       toast.error("Error");
@@ -86,25 +81,14 @@ export default function Register() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth margin="normal">
               <TextField
-                label="Name"
+                label="Full Name"
                 variant="outlined"
-                {...register("name", {
+                {...register("fullName", {
                   required: "Name is required",
                 })}
-                error={!!errors.name}
+                error={!!errors.fullName}
               />
-              <FormHelperText error>{errors.name?.message}</FormHelperText>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <TextField
-                label="Second Name"
-                variant="outlined"
-                {...register("lastName", {
-                  required: "Last Name is required",
-                })}
-                error={!!errors.lastName}
-              />
-              <FormHelperText error>{errors.lastName?.message}</FormHelperText>
+              <FormHelperText error>{errors.fullName?.message}</FormHelperText>
             </FormControl>
             <FormControl fullWidth margin="normal">
               <TextField

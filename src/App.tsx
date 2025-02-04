@@ -4,11 +4,8 @@ import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { routes } from "./constants/path";
 import Navbar from "./components/navbar/Navbar";
-import Register from "./pages/register/Register";
-import Login from "./pages/login/Login";
 import { ToastContainer } from "react-toastify";
 import { useAuthStore } from "./store/useAuthStore";
-import Logout from "./pages/logout/Logout";
 
 function App() {
   const Home = lazy(() => import("./pages/home/Home"));
@@ -18,12 +15,15 @@ function App() {
   const Profile = lazy(() => import("./pages/profile/Profile"));
   const Admin = lazy(() => import("./pages/admin/Admin"));
   const Favorite = lazy(() => import("./pages/favorite/Favorite"));
+  const Login = lazy(() => import("./pages/login/Login"));
+  const Register = lazy(() => import("./pages/register/Register"));
+  const Logout = lazy(() => import("./pages/logout/Logout"));
 
   const { checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
   return (
     <>
