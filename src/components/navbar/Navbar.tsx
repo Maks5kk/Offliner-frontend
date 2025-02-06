@@ -96,7 +96,7 @@ function Navbar() {
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
             {authUser ? (
               <>
-                <LinkComponent to={'/favorite'}>
+                <LinkComponent to='/favorite'>
                   <IconButton aria-label='favorite' sx={{ mr: 2 }}>
                     <StyledBadge badgeContent={4} color='secondary'>
                       <FavoriteIcon />
