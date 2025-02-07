@@ -30,7 +30,11 @@ const product = {
     { label: "Storage", value: "1TB SSD" },
     { label: "Display", value: "16-inch Retina Display" },
   ],
-  colors: ["Space Gray", "Silver", "Midnight"],
+  types: [
+    { value: "space-gray", label: "Space Gray" },
+    { value: "silver", label: "Silver" },
+    { value: "midnight", label: "Midnight" },
+  ],
 };
 
 const reviews = [
@@ -69,11 +73,13 @@ const similarProducts = [
 ];
 
 const ProductPage = () => {
-  const [selectedColor, setSelectedColor] = useState("Space Gray");
-  const [hovered, setHovered] = useState(false);
+  const [selectedType, setSelectedType] = useState({
+    value: "space-gray",
+    label: "Space Gray",
+  });
 
-  const handleColorChange = (color: string) => {
-    setSelectedColor(color);
+  const handleTypeChange = (newType: { value: string; label: string }) => {
+    setSelectedType(newType);
   };
 
   return (
@@ -88,12 +94,12 @@ const ProductPage = () => {
                   width: "100%",
                   borderRadius: 2,
                   transition: "transform 0.3s ease-in-out",
-                  transform: hovered ? "scale(1.1)" : "scale(1)",
+                  "&:hover": {
+                    transform: "scale(1.1)",
+                  },
                 }}
                 image={product.image}
                 alt={product.title}
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
               />
             </Grid>
 
@@ -142,23 +148,31 @@ const ProductPage = () => {
                       mt: 1,
                     }}
                   >
-                    {product.colors.map((color) => (
+                    {product.types.map((type) => (
                       <Button
-                        key={color}
-                        onClick={() => handleColorChange(color)}
+                        key={type.value}
+                        onClick={() => handleTypeChange(type)}
                         sx={{
                           backgroundColor:
-                            selectedColor === color ? "blue" : "transparent",
-                          color: selectedColor === color ? "white" : "black",
+                            selectedType?.value === type.value
+                              ? "primary.main"
+                              : "transparent",
+                          color:
+                            selectedType?.value === type.value
+                              ? "white"
+                              : "black",
                           borderRadius: 2,
-                          fontWeight: selectedColor === color ? 600 : 400,
+                          fontWeight:
+                            selectedType?.value === type.value ? 600 : 400,
                           "&:hover": {
                             backgroundColor:
-                              selectedColor === color ? "primary" : "lightgray",
+                              selectedType?.value === type.value
+                                ? "primary"
+                                : "lightgray",
                           },
                         }}
                       >
-                        {color}
+                        {type.label}
                       </Button>
                     ))}
                   </ButtonGroup>
