@@ -6,13 +6,13 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { useSearchParams } from "react-router-dom";
 import ProductGrid from "../../components/productGrid/ProductGrid";
 
-export interface IReview {
+export interface Review {
   userId: string;
   comment: string;
   rating: number;
 }
 
-export interface IProduct {
+export interface Product {
   _id: string;
   name: string;
   description: string;
@@ -22,27 +22,20 @@ export interface IProduct {
   price: number;
   image: string;
   rating: number;
-  reviews: IReview[];
+  reviews: Review[];
 }
 
 const fetchProducts = async (
   searchParams: URLSearchParams
-): Promise<IProduct[]> => {
+): Promise<Product[]> => {
   try {
-    const search = searchParams.get("search") || "";
-    const priceFrom = searchParams.get("price_from");
-    const priceTo = searchParams.get("price_to");
-    const category = searchParams.get("category");
-    const rating = searchParams.get("rating");
-    const sort = searchParams.get("sort");
-
-    const params: any = {
-      search,
-      price_from: priceFrom,
-      price_to: priceTo,
-      category,
-      rating,
-      sort,
+    const params = {
+      search: searchParams.get("search") || "",
+      price_from: searchParams.get("price_from"),
+      price_to: searchParams.get("price_to"),
+      category: searchParams.get("category"),
+      rating: searchParams.get("rating"),
+      sort: searchParams.get("sort"),
     };
 
     const response = await api.get("/products", { params });
@@ -60,7 +53,7 @@ export default function ProductList() {
     data: products,
     isLoading,
     isError,
-  } = useQuery<IProduct[]>({
+  } = useQuery<Product[]>({
     queryKey: ["products", searchParams.toString()],
     queryFn: () => fetchProducts(searchParams),
   });
@@ -68,7 +61,6 @@ export default function ProductList() {
   return (
     <Box sx={{ display: "flex", marginTop: "32px", width: "100%" }}>
       <Sidebar />
-
       <ProductGrid
         products={products}
         isLoading={isLoading}

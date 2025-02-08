@@ -48,7 +48,7 @@ export default function ProductGrid({
 }: ProductGridProps) {
   return (
     <>
-      {isLoading ? (
+      {isLoading && (
         <Box
           sx={{
             display: "flex",
@@ -59,7 +59,9 @@ export default function ProductGrid({
         >
           <CircularProgress />
         </Box>
-      ) : isError ? (
+      )}
+
+      {isError && (
         <Box
           sx={{
             display: "flex",
@@ -70,7 +72,9 @@ export default function ProductGrid({
         >
           <Typography color="error">Error loading products</Typography>
         </Box>
-      ) : (
+      )}
+
+      {!isError && !isLoading && (
         <Box sx={{ width: "75%" }}>
           <Grid2 container spacing={2}>
             {products ? (

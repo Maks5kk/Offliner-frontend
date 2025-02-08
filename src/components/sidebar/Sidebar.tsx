@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import _ from "lodash";
 
 const Sidebar = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
@@ -27,22 +28,17 @@ const Sidebar = () => {
     setSearchParams(searchParams);
   };
 
-  let debounceTimeout: NodeJS.Timeout | null = null;
-
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    if (Array.isArray(newValue)) {
-      if (debounceTimeout !== null) {
-        clearTimeout(debounceTimeout);
-      }
-      debounceTimeout = setTimeout(() => {
+  const handleSliderChange = _.debounce(
+    (event: Event, newValue: number | number[]) => {
+      if (Array.isArray(newValue)) {
         setPriceRange(newValue as [number, number]);
         searchParams.set("price_from", String(newValue[0]));
         searchParams.set("price_to", String(newValue[1]));
         setSearchParams(searchParams);
-        debounceTimeout = null;
-      }, 1500);
-    }
-  };
+      }
+    },
+    1000
+  );
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
