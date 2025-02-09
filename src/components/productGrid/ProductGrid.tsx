@@ -15,6 +15,7 @@ import {
   Grid2,
   Typography,
 } from "@mui/material";
+import useCartStore from "../../store/useCartStore";
 
 interface ProductGridProps {
   isLoading: boolean;
@@ -46,6 +47,12 @@ export default function ProductGrid({
   products,
   isError,
 }: ProductGridProps) {
+  const { addToCart } = useCartStore();
+
+  const handleAddToCart = (productId: string) => {
+    addToCart(productId, 1);
+  };
+
   return (
     <>
       {isLoading && (
@@ -175,6 +182,7 @@ export default function ProductGrid({
                     </CardContent>
                     <Box sx={{ padding: 1 }}>
                       <Button
+                        onClick={() => handleAddToCart(product._id)}
                         variant="contained"
                         color="primary"
                         fullWidth
