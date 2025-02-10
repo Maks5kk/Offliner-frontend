@@ -8,7 +8,7 @@ import ProductCard from "../productCard/ProductCard";
 
 interface ProductGridProps {
   isLoading: boolean;
-  products: IProduct[] | undefined;
+  products: Product[] | undefined;
   isError: boolean;
 }
 
@@ -17,7 +17,7 @@ interface Type {
   value: string;
 }
 
-interface IProduct {
+interface Product {
   _id: string;
   name: string;
   description: string;
@@ -27,11 +27,11 @@ interface IProduct {
   price: number;
   image: string;
   rating: number;
-  reviews: IReview[];
+  reviews: Review[];
   types: Type[];
 }
 
-interface IReview {
+interface Review {
   userId: string;
   comment: string;
   rating: number;
