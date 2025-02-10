@@ -12,7 +12,7 @@ interface ProductGridProps {
   isError: boolean;
 }
 
-interface Type {
+interface ProductType {
   label: string;
   value: string;
 }
@@ -28,7 +28,7 @@ interface Product {
   image: string;
   rating: number;
   reviews: Review[];
-  types: Type[];
+  types: ProductType[];
 }
 
 interface Review {
