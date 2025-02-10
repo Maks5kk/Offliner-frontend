@@ -18,11 +18,11 @@ import {
 
 interface ProductGridProps {
   isLoading: boolean;
-  products: IProduct[] | undefined;
+  products: Product[] | undefined;
   isError: boolean;
 }
 
-interface IProduct {
+interface Product {
   _id: string;
   name: string;
   description: string;
@@ -32,10 +32,10 @@ interface IProduct {
   price: number;
   image: string;
   rating: number;
-  reviews: IReview[];
+  reviews: Review[];
 }
 
-interface IReview {
+interface Review {
   userId: string;
   comment: string;
   rating: number;

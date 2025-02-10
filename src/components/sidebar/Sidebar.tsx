@@ -15,9 +15,13 @@ import {
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import _ from "lodash";
+import { MAX_PRICE, MIN_PRICE } from "../../constants/price";
 
 const Sidebar = () => {
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    MIN_PRICE,
+    MAX_PRICE,
+  ]);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
@@ -118,13 +122,13 @@ const Sidebar = () => {
         </Grid2>
       </Grid2>
       <Slider
-        defaultValue={[0, 5000]}
+        defaultValue={[MIN_PRICE, MAX_PRICE]}
         valueLabelDisplay="auto"
         onChange={handleSliderChange}
         step={100}
         marks
-        min={0}
-        max={5000}
+        min={MIN_PRICE}
+        max={MAX_PRICE}
         sx={{ mb: 4 }}
       />
 
