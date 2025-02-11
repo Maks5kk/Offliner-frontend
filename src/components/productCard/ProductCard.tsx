@@ -24,7 +24,7 @@ interface Type {
 }
 
 interface ProductCardProps {
-  product: IProduct;
+  product: Product;
   addToCart: (
     productId: string,
     quantity: number,
@@ -32,7 +32,7 @@ interface ProductCardProps {
   ) => void;
 }
 
-interface IProduct {
+interface Product {
   _id: string;
   name: string;
   description: string;
@@ -42,11 +42,11 @@ interface IProduct {
   price: number;
   image: string;
   rating: number;
-  reviews: IReview[];
+  reviews: Review[];
   types: Type[];
 }
 
-interface IReview {
+interface Review {
   userId: string;
   comment: string;
   rating: number;

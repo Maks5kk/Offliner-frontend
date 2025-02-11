@@ -17,9 +17,9 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
-import IsLoading from "../../components/isLoading/IsLoading";
-import IsError from "../../components/isError/IsError";
 import useCartStore from "../../store/useCartStore";
+import ErrorMessage from "../../components/errorMessage/ErrorMessage";
+import Loader from "../../components/Loader/Loader";
 
 const similarProducts = [
   {
@@ -113,8 +113,8 @@ const ProductPage = () => {
 
   return (
     <>
-      <IsLoading isLoading={isLoading} />
-      <IsError isError={isError} />
+      <Loader isLoading={isLoading} />
+      <ErrorMessage isError={isError} children="Error loading product" />
 
       <Box bgcolor="#f5f5f5">
         <Box

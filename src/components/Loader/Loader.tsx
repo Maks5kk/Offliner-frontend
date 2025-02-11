@@ -1,10 +1,10 @@
 import { Box, CircularProgress } from "@mui/material";
 
-interface IsLoadingProps {
+interface LoaderProps {
   isLoading: boolean;
 }
 
-export default function IsLoading({ isLoading }: IsLoadingProps) {
+export default function Loader({ isLoading }: LoaderProps) {
   return (
     <>
       {isLoading && (

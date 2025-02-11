@@ -1,10 +1,10 @@
 // ProductGrid.tsx
 
-import { Box, Grid2, Typography } from "@mui/material";
+import { Box, Grid2 } from "@mui/material";
 import useCartStore from "../../store/useCartStore";
-import IsLoading from "../isLoading/IsLoading";
-import IsError from "../isError/IsError";
 import ProductCard from "../productCard/ProductCard";
+import Loader from "../Loader/Loader";
+import ErrorMessage from "../errorMessage/ErrorMessage";
 
 interface ProductGridProps {
   isLoading: boolean;
@@ -46,8 +46,8 @@ export default function ProductGrid({
 
   return (
     <>
-      <IsLoading isLoading={isLoading} />
-      <IsError isError={isError} />
+      <Loader isLoading={isLoading} />
+      <ErrorMessage isError={isError} children="Error loading products" />
 
       {!isError && !isLoading && (
         <Box sx={{ width: "75%" }}>

@@ -1,10 +1,11 @@
 import { Box, Typography } from "@mui/material";
 
-interface IsErrorProps {
+interface ErrorMessageProps {
   isError: boolean;
+  children: string;
 }
 
-export default function IsError({ isError }: IsErrorProps) {
+export default function ErrorMessage({ isError, children }: ErrorMessageProps) {
   return (
     <>
       {isError && (
@@ -16,7 +17,7 @@ export default function IsError({ isError }: IsErrorProps) {
             height: "100vh",
           }}
         >
-          <Typography color="error">Error loading products</Typography>
+          <Typography color="error">{children}</Typography>
         </Box>
       )}
     </>
