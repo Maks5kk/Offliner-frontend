@@ -12,6 +12,11 @@ export interface Review {
   rating: number;
 }
 
+interface Type {
+  label: string;
+  value: string;
+}
+
 export interface Product {
   _id: string;
   name: string;
@@ -23,6 +28,7 @@ export interface Product {
   image: string;
   rating: number;
   reviews: Review[];
+  types: Type[];
 }
 
 const fetchProducts = async (

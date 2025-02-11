@@ -84,7 +84,7 @@ const Sidebar = () => {
     <Box
       sx={{
         width: "360px",
-        height: "100%",
+        maxHeight: "calc(100vh - 64px)",
         padding: "16px",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
         borderRadius: "8px",
@@ -92,7 +92,9 @@ const Sidebar = () => {
         mr: "48px",
         ml: "24px",
         position: "sticky",
-        top: 10,
+        top: 4,
+        overflowY: "auto",
+        overflowX: "hidden",
       }}
     >
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
