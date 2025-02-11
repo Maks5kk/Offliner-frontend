@@ -20,6 +20,8 @@ import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
 import { useAuthStore } from "../../store/useAuthStore";
 import useCartStore from "../../store/useCartStore";
+import { List, ListItem, ListItemText } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const settings = [
   { label: "Profile", route: routes.profile },
@@ -36,13 +38,17 @@ const StyledBadge = styled(Badge)<BadgeProps>(() => ({
 
 function Navbar() {
   const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null);
+  const [cartPopoverAnchor, setCartPopoverAnchor] =
+    React.useState<null | HTMLElement>(null);
 
   const { authUser } = useAuthStore();
-  const { cart, fetchCart } = useCartStore();
+  const { cart, fetchCart, removeFromCart } = useCartStore();
 
   React.useEffect(() => {
     fetchCart();
   }, []);
+
+  console.log("cart: ", cart);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorUser(event.currentTarget);
@@ -51,6 +57,16 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorUser(null);
   };
+
+  const handleCartMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    setCartPopoverAnchor(event.currentTarget);
+  };
+
+  const handleCartMouseLeave = () => {
+    setCartPopoverAnchor(null);
+  };
+
+  const isCartPopoverOpen = Boolean(cartPopoverAnchor);
 
   return (
     <AppBar position="static">
@@ -117,13 +133,88 @@ function Navbar() {
                     </StyledBadge>
                   </IconButton>
                 </LinkComponent>
-                <LinkComponent to="/basket">
-                  <IconButton aria-label="cart" sx={{ mr: 3 }}>
-                    <StyledBadge badgeContent={cart?.length} color="secondary">
-                      <ShoppingCartIcon />
-                    </StyledBadge>
-                  </IconButton>
-                </LinkComponent>
+                <Box
+                  sx={{ position: "relative", display: "inline-block" }}
+                  onMouseEnter={handleCartMouseEnter}
+                  onMouseLeave={handleCartMouseLeave}
+                >
+                  <LinkComponent to="/basket">
+                    <IconButton aria-label="cart" sx={{ mr: 3 }}>
+                      <StyledBadge
+                        badgeContent={cart?.length}
+                        color="secondary"
+                      >
+                        <ShoppingCartIcon />
+                      </StyledBadge>
+                    </IconButton>
+                  </LinkComponent>
+
+                  {isCartPopoverOpen && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: "100%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        bgcolor: "white",
+                        maxHeight: "40vh",
+                        overflowY: "scroll",
+                        boxShadow: 3,
+                        borderRadius: 2,
+                        zIndex: 10,
+                        minWidth: 250,
+                        padding: 2,
+                      }}
+                      onMouseEnter={handleCartMouseEnter}
+                      onMouseLeave={handleCartMouseLeave}
+                    >
+                      <Typography variant="h6" sx={{ mb: 1, color: "black" }}>
+                        Cart
+                      </Typography>
+
+                      {cart?.length ? (
+                        <List>
+                          {cart.map((item) => (
+                            <ListItem
+                              key={item.productId._id}
+                              sx={{ display: "flex" }}
+                            >
+                              <img
+                                src={item.productId.image}
+                                alt={item.productId.name}
+                                style={{
+                                  width: 50,
+                                  height: 50,
+                                  marginRight: 16,
+                                }}
+                              />
+                              <ListItemText
+                                primary={item.productId.name}
+                                secondary={`Quantity: ${item.quantity} | Price: $${item.productId.price}`}
+                              />
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ ml: "auto" }}
+                              >
+                                ${item.productId.price * item.quantity}
+                              </Typography>
+                              <IconButton
+                                onClick={() =>
+                                  removeFromCart(item.productId._id)
+                                }
+                                color="error"
+                              >
+                                Delete
+                              </IconButton>
+                            </ListItem>
+                          ))}
+                        </List>
+                      ) : (
+                        <Typography>Your cart is empty</Typography>
+                      )}
+                    </Box>
+                  )}
+                </Box>
                 <Typography sx={{ mr: 2, color: "white", fontWeight: "bold" }}>
                   {authUser.fullName}
                 </Typography>
