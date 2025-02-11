@@ -7,7 +7,6 @@ import {
   CardContent,
   CardMedia,
   Chip,
-  IconButton,
   Typography,
 } from "@mui/material";
 import {
@@ -167,18 +166,16 @@ export default function ProductCard({ product, addToCart }: ProductCardProps) {
         </Typography>
         <Box sx={{ display: "flex", gap: "8px" }}>
           {product.types.map((type) => (
-            <IconButton
+            <Button
               key={type.value}
               onClick={() => handleColorSelect(type.value)}
               sx={{
-                width: "30px",
-                height: "30px",
-                borderRadius: "50%",
+                height: "20px",
                 backgroundColor: type.value,
                 border:
-                  selectedColor === type.value ? "3px solid black" : "none",
+                  selectedColor === type.value ? "2px solid black" : "none",
                 "&:hover": {
-                  border: "2px solid black",
+                  border: "2px solid lightgray",
                 },
               }}
             />
