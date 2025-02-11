@@ -6,6 +6,7 @@ import { routes } from "./constants/path";
 import Navbar from "./components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import { useAuthStore } from "./store/useAuthStore";
+import { Footer } from "./components/footer/Footer";
 
 function App() {
   const Home = lazy(() => import("./pages/home/Home"));
@@ -45,6 +46,7 @@ function App() {
             <Route path={routes.product} element={<Product />} />
           </Routes>
         </Suspense>
+        <Footer />
       </BrowserRouter>
     </>
   );
