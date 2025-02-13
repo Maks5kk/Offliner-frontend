@@ -64,7 +64,7 @@ const useCartStore = create<CartState>((set) => ({
     set({ isLoading: true });
     try {
       const res = await api.delete("/cart/remove", { data: { productId } });
-      console.log(res.data);
+      
       set({ cart: res.data.cart.items, isLoading: false });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });
