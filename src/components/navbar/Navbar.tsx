@@ -1,25 +1,26 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
-import Badge, { BadgeProps } from "@mui/material/Badge";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Container,
+  Avatar,
+  Tooltip,
+  Menu,
+  MenuItem,
+  TextField,
+  Badge,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
 import { useAuthStore } from "../../store/useAuthStore";
-import useCartStore from "../../store/useCartStore";
+import CartPopover from "../cartPopover/CartPopover";
 
 const settings = [
   { label: "Profile", route: routes.profile },
@@ -27,7 +28,7 @@ const settings = [
   { label: "Logout", route: routes.logout },
 ];
 
-const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+const StyledBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
     color: "black",
     backgroundColor: "white",
@@ -35,14 +36,11 @@ const StyledBadge = styled(Badge)<BadgeProps>(() => ({
 }));
 
 function Navbar() {
-  const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null);
+  const [anchorUser, setAnchorUser] = React.useState<HTMLElement | null>(null);
+  const [cartPopoverAnchor, setCartPopoverAnchor] =
+    React.useState<HTMLElement | null>(null);
 
   const { authUser } = useAuthStore();
-  const { cart, fetchCart } = useCartStore();
-
-  React.useEffect(() => {
-    fetchCart();
-  }, []);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorUser(event.currentTarget);
@@ -62,7 +60,6 @@ function Navbar() {
           <LinkComponent
             to="/"
             sx={{
-              mr: "1",
               textDecoration: "none",
               display: "flex",
               alignItems: "center",
@@ -70,9 +67,6 @@ function Navbar() {
           >
             <Typography
               variant="h3"
-              noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
               sx={{
                 fontFamily: "monospace",
                 fontWeight: 900,
@@ -84,11 +78,7 @@ function Navbar() {
             </Typography>
             <Typography
               variant="h5"
-              noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
               sx={{
-                mr: 2,
                 fontFamily: "monospace",
                 fontWeight: 700,
                 color: "white",
@@ -98,15 +88,16 @@ function Navbar() {
               liner
             </Typography>
           </LinkComponent>
+
           <Box sx={{ width: 800, maxWidth: "100%" }}>
             <TextField
-              slotProps={{ input: { startAdornment: <SearchSharpIcon /> } }}
               sx={{ bgcolor: "white", borderRadius: 1 }}
               fullWidth
               placeholder="Search"
               id="search"
             />
           </Box>
+
           <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
             {authUser ? (
               <>
@@ -117,13 +108,25 @@ function Navbar() {
                     </StyledBadge>
                   </IconButton>
                 </LinkComponent>
-                <LinkComponent to="/basket">
-                  <IconButton aria-label="cart" sx={{ mr: 3 }}>
-                    <StyledBadge badgeContent={cart?.length} color="secondary">
+
+                <Box sx={{ position: "relative", display: "inline-block" }}>
+                  <IconButton
+                    aria-label="cart"
+                    sx={{ mr: 3 }}
+                    onMouseEnter={(event) =>
+                      setCartPopoverAnchor(event.currentTarget)
+                    }
+                  >
+                    <StyledBadge badgeContent={4} color="secondary">
                       <ShoppingCartIcon />
                     </StyledBadge>
                   </IconButton>
-                </LinkComponent>
+                  <CartPopover
+                    anchorEl={cartPopoverAnchor}
+                    onClose={() => setCartPopoverAnchor(null)}
+                  />
+                </Box>
+
                 <Typography sx={{ mr: 2, color: "white", fontWeight: "bold" }}>
                   {authUser.fullName}
                 </Typography>
@@ -141,15 +144,9 @@ function Navbar() {
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
                   anchorEl={anchorUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
+                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
                   keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
+                  transformOrigin={{ vertical: "top", horizontal: "right" }}
                   open={Boolean(anchorUser)}
                   onClose={handleCloseUserMenu}
                 >
@@ -184,4 +181,5 @@ function Navbar() {
     </AppBar>
   );
 }
+
 export default Navbar;
