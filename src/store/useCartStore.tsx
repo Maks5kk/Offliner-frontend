@@ -54,7 +54,15 @@ const useCartStore = create<CartState>((set) => ({
     set({ isLoading: true });
     try {
       const res = await api.post("/cart/add", { productId, quantity, type });
-      set({ cart: res.data.cart.items, isLoading: false });
+      set({
+        cart: res.data.cart.items,
+        totalPrice: res.data.cart.items.reduce(
+          (sum: number, item: ProductInCart) =>
+            sum + item.productId.price * item.quantity,
+          0
+        ),
+        isLoading: false,
+      });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });
     }
@@ -64,8 +72,16 @@ const useCartStore = create<CartState>((set) => ({
     set({ isLoading: true });
     try {
       const res = await api.delete("/cart/remove", { data: { productId } });
-      
-      set({ cart: res.data.cart.items, isLoading: false });
+      console.log(res.data);
+      set({
+        cart: res.data.cart.items,
+        totalPrice: res.data.cart.items.reduce(
+          (sum: number, item: ProductInCart) =>
+            sum + item.productId.price * item.quantity,
+          0
+        ),
+        isLoading: false,
+      });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });
     }

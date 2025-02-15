@@ -5,6 +5,8 @@ import useCartStore from "../../store/useCartStore";
 import ProductCard from "../productCard/ProductCard";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../errorMessage/ErrorMessage";
+import useFavoriteStore from "../../store/useFavoriteStore";
+import { useState } from "react";
 
 interface ProductGridProps {
   isLoading: boolean;
@@ -43,6 +45,7 @@ export default function ProductGrid({
   isError,
 }: ProductGridProps) {
   const { addToCart } = useCartStore();
+  const { addToFavorite } = useFavoriteStore();
 
   return (
     <>
@@ -59,7 +62,11 @@ export default function ProductGrid({
                   key={product._id}
                   component="div"
                 >
-                  <ProductCard product={product} addToCart={addToCart} />
+                  <ProductCard
+                    product={product}
+                    addToCart={addToCart}
+                    addToFavorite={addToFavorite}
+                  />
                 </Grid2>
               ))}
           </Grid2>

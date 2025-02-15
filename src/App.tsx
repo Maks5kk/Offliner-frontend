@@ -14,7 +14,7 @@ function App() {
   const Basket = lazy(() => import("./pages/basket/Basket"));
   const Profile = lazy(() => import("./pages/profile/Profile"));
   const Admin = lazy(() => import("./pages/admin/Admin"));
-  const Favorite = lazy(() => import("./pages/favorite/Favorite"));
+  const Favorite = lazy(() => import("./pages/favorite/Favorites"));
   const Login = lazy(() => import("./pages/login/Login"));
   const Register = lazy(() => import("./pages/register/Register"));
   const Logout = lazy(() => import("./pages/logout/Logout"));
