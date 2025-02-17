@@ -40,7 +40,7 @@ export default function Categories({ categories }: CategoriesProps) {
               },
             }}
           >
-            <img src={category.imgSrc} width={100} height={80} />
+            <img src={category.imgSrc} height={80} />
             <Typography sx={{ textAlign: "center", pt: 1 }}>
               {category.title}
             </Typography>

@@ -37,7 +37,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           position: "relative",
         }}
       >
-        {/* Иконка скидки */}
         {product.discount !== undefined && (
           <Box
             sx={{
