@@ -4,6 +4,7 @@ import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
 import useFavoriteStore from "../../store/useFavoriteStore";
 import { LinkComponent } from "../ui/Link";
+import { routes } from "../../constants/path";
 
 export default function FavoritePopover({
   anchorEl,
@@ -65,7 +66,7 @@ export default function FavoritePopover({
       )}
 
       <Box sx={styles.footer}>
-        <LinkComponent to="/favorite" sx={styles.goToFavoritesLink}>
+        <LinkComponent to={routes.favorite} sx={styles.goToFavoritesLink}>
           Go to favorite
         </LinkComponent>
       </Box>

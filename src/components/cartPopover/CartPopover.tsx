@@ -11,6 +11,7 @@ import styles from "./CartPopover.styles";
 import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
 import { LinkComponent } from "../ui/Link";
+import { routes } from "../../constants/path";
 
 export default function CartPopover({
   anchorEl,
@@ -68,7 +69,7 @@ export default function CartPopover({
         <Typography>Your cart is empty</Typography>
       )}
 
-      <LinkComponent to="/basket">
+      <LinkComponent to={routes.basket}>
         <Typography sx={styles.goToCart}>Go to cart</Typography>
       </LinkComponent>
     </Box>
