@@ -72,7 +72,6 @@ const useCartStore = create<CartState>((set) => ({
     set({ isLoading: true });
     try {
       const res = await api.delete("/cart/remove", { data: { productId } });
-      console.log(res.data);
       set({
         cart: res.data.cart.items,
         totalPrice: res.data.cart.items.reduce(

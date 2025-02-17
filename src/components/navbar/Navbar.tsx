@@ -114,7 +114,7 @@ function Navbar() {
             {authUser ? (
               <>
                 <Box sx={{ position: "relative", display: "inline-block" }}>
-                  <LinkComponent to="/favorite">
+                  <LinkComponent to={routes.favorite}>
                     <IconButton
                       aria-label="favorite"
                       sx={{ mr: 2 }}
@@ -141,7 +141,7 @@ function Navbar() {
                 </Box>
 
                 <Box sx={{ position: "relative", display: "inline-block" }}>
-                  <LinkComponent to="/basket">
+                  <LinkComponent to={routes.basket}>
                     <IconButton
                       aria-label="cart"
                       sx={{ mr: 3 }}

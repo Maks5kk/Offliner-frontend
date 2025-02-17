@@ -79,9 +79,13 @@ export default function ProductCard({
     setSelectedColor("");
   };
 
-  const handleFavoriteClick = () => {
-    setIsFavorite((prev) => !prev);
-    addToFavorite(product._id);
+  const handleFavoriteClick = async () => {
+    try {
+      await addToFavorite(product._id);
+      setIsFavorite((prev) => !prev);
+    } catch (error) {
+      console.error("Error with add to favorite: ", error);
+    }
   };
 
   return (
