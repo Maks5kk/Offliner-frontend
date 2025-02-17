@@ -21,6 +21,9 @@ import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
 import { useAuthStore } from "../../store/useAuthStore";
 import CartPopover from "../cartPopover/CartPopover";
+import useCartStore from "../../store/useCartStore";
+import useFavoriteStore from "../../store/useFavoriteStore";
+import FavoritePopover from "../favoritePopover/FavoritePopover";
 
 const settings = [
   { label: "Profile", route: routes.profile },
@@ -39,8 +42,17 @@ function Navbar() {
   const [anchorUser, setAnchorUser] = React.useState<HTMLElement | null>(null);
   const [cartPopoverAnchor, setCartPopoverAnchor] =
     React.useState<HTMLElement | null>(null);
+  const [favoritePopoverAnchor, setFavoritePopoverAnchor] =
+    React.useState<HTMLElement | null>(null);
 
   const { authUser } = useAuthStore();
+  const { cart, fetchCart } = useCartStore();
+  const { favorite, fetchFavoriteList } = useFavoriteStore();
+
+  React.useEffect(() => {
+    fetchCart();
+    fetchFavoriteList();
+  }, []);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorUser(event.currentTarget);
@@ -101,29 +113,52 @@ function Navbar() {
           <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
             {authUser ? (
               <>
-                <LinkComponent to="/favorite">
-                  <IconButton aria-label="favorite" sx={{ mr: 2 }}>
-                    <StyledBadge badgeContent={4} color="secondary">
-                      <FavoriteIcon />
-                    </StyledBadge>
-                  </IconButton>
-                </LinkComponent>
+                <Box sx={{ position: "relative", display: "inline-block" }}>
+                  <LinkComponent to={routes.favorite}>
+                    <IconButton
+                      aria-label="favorite"
+                      sx={{ mr: 2 }}
+                      onMouseEnter={(event) =>
+                        setFavoritePopoverAnchor(event.currentTarget)
+                      }
+                      onMouseLeave={() => setFavoritePopoverAnchor(null)}
+                    >
+                      <StyledBadge
+                        badgeContent={favorite.length}
+                        color="secondary"
+                      >
+                        <FavoriteIcon />
+                      </StyledBadge>
+                    </IconButton>
+                  </LinkComponent>
+                  <FavoritePopover
+                    anchorEl={favoritePopoverAnchor}
+                    onClose={() => setFavoritePopoverAnchor(null)}
+                    onMouseEnter={() =>
+                      setFavoritePopoverAnchor(favoritePopoverAnchor)
+                    }
+                  />
+                </Box>
 
                 <Box sx={{ position: "relative", display: "inline-block" }}>
-                  <IconButton
-                    aria-label="cart"
-                    sx={{ mr: 3 }}
-                    onMouseEnter={(event) =>
-                      setCartPopoverAnchor(event.currentTarget)
-                    }
-                  >
-                    <StyledBadge badgeContent={4} color="secondary">
-                      <ShoppingCartIcon />
-                    </StyledBadge>
-                  </IconButton>
+                  <LinkComponent to={routes.basket}>
+                    <IconButton
+                      aria-label="cart"
+                      sx={{ mr: 3 }}
+                      onMouseEnter={(event) =>
+                        setCartPopoverAnchor(event.currentTarget)
+                      }
+                      onMouseLeave={() => setCartPopoverAnchor(null)}
+                    >
+                      <StyledBadge badgeContent={cart.length} color="secondary">
+                        <ShoppingCartIcon />
+                      </StyledBadge>
+                    </IconButton>
+                  </LinkComponent>
                   <CartPopover
                     anchorEl={cartPopoverAnchor}
                     onClose={() => setCartPopoverAnchor(null)}
+                    onMouseEnter={() => setCartPopoverAnchor(cartPopoverAnchor)}
                   />
                 </Box>
 

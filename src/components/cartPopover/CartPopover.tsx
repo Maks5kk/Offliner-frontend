@@ -6,18 +6,21 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import useCartStore from "../../store/useCartStore";
 import styles from "./CartPopover.styles";
 import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
+import { LinkComponent } from "../ui/Link";
+import { routes } from "../../constants/path";
 
 export default function CartPopover({
   anchorEl,
   onClose,
+  onMouseEnter,
 }: {
   anchorEl: HTMLElement | null;
   onClose: () => void;
+  onMouseEnter: () => void;
 }) {
   const { cart, removeFromCart } = useCartStore();
   const isOpen = Boolean(anchorEl);
@@ -26,6 +29,7 @@ export default function CartPopover({
     <Box
       sx={{ ...styles.popover, display: isOpen ? "block" : "none" }}
       onMouseLeave={onClose}
+      onMouseEnter={onMouseEnter}
     >
       <Typography variant="h6" sx={styles.title}>
         Cart
@@ -40,10 +44,15 @@ export default function CartPopover({
                 alt={item.productId.name}
                 style={styles.image as CSSProperties}
               />
-              <ListItemText
-                primary={item.productId.name}
-                secondary={`Quantity: ${item.quantity} | Price: $${item.productId.price}`}
-              />
+              <LinkComponent
+                to={`/product/${item.productId._id}`}
+                sx={{ textDecoration: "none" }}
+              >
+                <ListItemText
+                  primary={item.productId.name}
+                  secondary={`Quantity: ${item.quantity} | Price: $${item.productId.price}`}
+                />
+              </LinkComponent>
               <Typography variant="subtitle2" sx={styles.totalPrice}>
                 ${item.productId.price * item.quantity}
               </Typography>
@@ -60,9 +69,9 @@ export default function CartPopover({
         <Typography>Your cart is empty</Typography>
       )}
 
-      <Link to="/basket">
+      <LinkComponent to={routes.basket}>
         <Typography sx={styles.goToCart}>Go to cart</Typography>
-      </Link>
+      </LinkComponent>
     </Box>
   );
 }

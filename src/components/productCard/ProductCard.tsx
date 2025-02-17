@@ -7,10 +7,13 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  IconButton,
   Typography,
 } from "@mui/material";
 import {
   ComputerOutlined,
+  Favorite,
+  FavoriteBorder,
   LaptopMac,
   Smartphone,
   Star,
@@ -29,6 +32,7 @@ interface ProductCardProps {
     quantity: number,
     selectedColor: string
   ) => void;
+  addToFavorite: (productId: string) => void;
 }
 
 interface Product {
@@ -51,9 +55,15 @@ interface Review {
   rating: number;
 }
 
-export default function ProductCard({ product, addToCart }: ProductCardProps) {
+export default function ProductCard({
+  product,
+  addToCart,
+  addToFavorite,
+}: ProductCardProps) {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
+
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
@@ -67,6 +77,15 @@ export default function ProductCard({ product, addToCart }: ProductCardProps) {
     }
     addToCart(product._id, 1, selectedColor);
     setSelectedColor("");
+  };
+
+  const handleFavoriteClick = async () => {
+    try {
+      await addToFavorite(product._id);
+      setIsFavorite((prev) => !prev);
+    } catch (error) {
+      console.error("Error with add to favorite: ", error);
+    }
   };
 
   return (
@@ -141,6 +160,13 @@ export default function ProductCard({ product, addToCart }: ProductCardProps) {
         >
           ${product.price}
         </Typography>
+        <IconButton onClick={handleFavoriteClick}>
+          {isFavorite ? (
+            <Favorite sx={{ color: "black" }} />
+          ) : (
+            <FavoriteBorder />
+          )}
+        </IconButton>
         <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
           {[...Array(5)].map((_, index) => (
             <Star
