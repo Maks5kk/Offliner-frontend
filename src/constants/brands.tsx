@@ -1,3 +1,9 @@
+export type Brands = {
+  logo: string;
+  name: string;
+  filters?: string[];
+};
+
 export const brands = [
   {
     logo: "../../Brands/Apple.png",

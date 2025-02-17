@@ -19,7 +19,7 @@ export const slideDown = keyframes`
   }
 `;
 
-export const greedItem = styled(Paper)(({ theme }) => ({
+export const GreedItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#f5f5f5",
   ...theme.typography.body2,
   padding: theme.spacing(1),

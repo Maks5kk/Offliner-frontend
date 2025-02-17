@@ -1,3 +1,9 @@
+export type Categories = {
+  id: number;
+  title: string;
+  imgSrc: string;
+};
+
 export const categories = [
   {
     id: 1,

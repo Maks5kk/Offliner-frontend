@@ -1,10 +1,5 @@
 import { Product } from "../../constants/products";
 
-
-function sortCardsByRating(products: Product[]) {
-  return products.filter((product) => +product.rating >= 4);
-}
-
 function sortCards(
   products: Product[],
   brand: string,
@@ -15,8 +10,8 @@ function sortCards(
     .filter((product) => (type ? product.type === type : true));
 }
 
-function handleCategory(category: string) {
-  console.log(category);
-}
+function sortCardsByRating(products: Product[]) {
+    return products.filter((product) => +product.rating >= 4);
+  }
 
-export { sortCardsByRating, sortCards, handleCategory };
+export { sortCards, sortCardsByRating};

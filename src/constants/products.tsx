@@ -1,10 +1,16 @@
+export type Product = {
+  id: number;
+  img: string;
+  name: string;
+  cost: number;
+  type: string;
+  brand: string;
+  rating: string;
+  desk:string;
+  discount?: number;
+};
+
 export const products = [
-  // {
-  //     Apple:[...products]
-  // },
-  // {
-  //     Apple:[...products]
-  // },
 
   {
     id: 1,
