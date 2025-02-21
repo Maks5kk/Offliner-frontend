@@ -170,7 +170,8 @@ function Navbar() {
                     <Avatar
                       alt={authUser.fullName}
                       src={
-                        authUser.avatar || "/static/images/avatar/default.jpg"
+                        authUser.profilePic ||
+                        "/static/images/avatar/default.jpg"
                       }
                     />
                   </IconButton>
