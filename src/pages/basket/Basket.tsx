@@ -17,6 +17,7 @@ import {
   RemoveCircleOutline,
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function Basket() {
   const { fetchCart, cart, totalPrice, addToCart, removeFromCart } =
@@ -25,6 +26,8 @@ export default function Basket() {
   React.useEffect(() => {
     fetchCart();
   }, []);
+
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -41,7 +44,7 @@ export default function Basket() {
             sx={{ fontWeight: "bold", mb: 2 }}
             gutterBottom
           >
-            Cart ({cart.length} items)
+            {t("cartPage.title")} ({cart.length} {t("cartPage.items")})
           </Typography>
           {cart.length > 0 ? (
             cart.map((item) => (
@@ -79,7 +82,7 @@ export default function Basket() {
                     {item.productId.name}
                   </Typography>
                   <Typography sx={{ color: "black", fontSize: "16px", mt: 1 }}>
-                    Price: {item.productId.price}$
+                    {t("cartPage.price")}: {item.productId.price}$
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
                     <IconButton
@@ -121,7 +124,7 @@ export default function Basket() {
             ))
           ) : (
             <Typography variant="h6" color="text.secondary">
-              Your cart is empty
+              {t("cartPage.emptyMessage")}
             </Typography>
           )}
         </Grid2>
@@ -142,7 +145,7 @@ export default function Basket() {
             }}
           >
             <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-              Total price:{" "}
+              {t("cartPage.total")}:{" "}
             </Typography>
             <Divider sx={{ mb: 2 }} />
             <AnimatePresence mode="popLayout">
@@ -162,7 +165,7 @@ export default function Basket() {
                   variant="h5"
                   sx={{ color: "success.dark", fontWeight: "bold" }}
                 >
-                  Sum: <b>{totalPrice} $</b>
+                  {t("cartPage.sum")}: <b>{totalPrice} $</b>
                 </Typography>
               </motion.span>
             </AnimatePresence>
@@ -173,7 +176,7 @@ export default function Basket() {
               fullWidth
               sx={{ mt: 2, fontSize: "16px", py: 1.5 }}
             >
-              Order
+              {t("cartPage.order")}
             </Button>
           </Paper>
         </Grid2>

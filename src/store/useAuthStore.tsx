@@ -5,12 +5,14 @@ import { toast } from "react-toastify";
 interface AuthState {
   authUser: any | null;
   isSigningUp: boolean;
+  isUpdating: boolean;
   isLoggingIn: boolean;
   isCheckingAuth: boolean;
   checkAuth: () => Promise<void>;
   signup: (data: SignupData) => Promise<void>;
   login: (data: LoginData) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (data: UpdateProfileData) => Promise<void>;
 }
 
 interface ErrorResponse {
@@ -32,11 +34,34 @@ interface SignupData {
   password: string;
 }
 
+interface UpdateProfileWithoutPassword {
+  newFullName: string | null;
+  newEmail: string | null;
+  profilePicFile?: File | null;
+}
+
+interface UpdatePassword {
+  currentPassword: string | null;
+  newPassword: string | null;
+}
+
+type UpdateProfileData = UpdateProfileWithoutPassword | UpdatePassword;
+
+const createFormData = (data: UpdateProfileWithoutPassword) => {
+  const formData = new FormData();
+  if (data.newFullName) formData.append("newFullName", data.newFullName);
+  if (data.newEmail) formData.append("newEmail", data.newEmail);
+  if (data.profilePicFile)
+    formData.append("profilePicFile", data.profilePicFile);
+  return formData;
+};
+
 export const useAuthStore = create<AuthState>((set) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
   isCheckingAuth: true,
+  isUpdating: false,
 
   checkAuth: async () => {
     try {
@@ -102,6 +127,34 @@ export const useAuthStore = create<AuthState>((set) => ({
       } else {
         toast.error("An unknown error occurred");
       }
+    }
+  },
+
+  updateProfile: async (data: UpdateProfileData) => {
+    set({ isUpdating: true });
+    try {
+      const payload =
+        "currentPassword" in data
+          ? data
+          : createFormData(data as UpdateProfileWithoutPassword);
+
+      const response = await api.put("/auth/update", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (response.data) {
+        set({ authUser: response.data });
+        toast.success("Profile has successfully updated!");
+      }
+    } catch (error: unknown) {
+      if (error && (error as ErrorResponse).response) {
+        toast.error((error as ErrorResponse).response.data.message);
+      } else {
+        toast.error("Error with profile update!");
+      }
+    } finally {
+      set({ isUpdating: false });
     }
   },
 }));

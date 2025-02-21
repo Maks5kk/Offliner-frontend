@@ -49,7 +49,7 @@ export default function Register() {
         fullName: data.fullName.trim(),
       };
 
-      signup(cleanedData);
+      await signup(cleanedData);
 
       navigate("/");
     } catch (error) {

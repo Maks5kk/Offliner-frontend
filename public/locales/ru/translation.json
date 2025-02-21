@@ -1,0 +1,88 @@
+{
+  "navbar": {
+    "searchPlaceholder": "Поиск",
+    "settingsTooltip": "Открыть настройки",
+    "profile": "Профиль",
+    "administrator": "Администратор",
+    "logout": "Выйти",
+    "favorite": "Избранное",
+    "cart": "Корзина",
+    "login": "Войти"
+  },
+
+  "favoritePopover": {
+    "title": "Избранное",
+    "price": "Цена",
+    "link": "Перейти в избранное"
+  },
+
+  "cartPopover": {
+    "title": "Корзина",
+    "quantity": "Количество",
+    "price": "Цена",
+    "link": "Перейти в корзину"
+  },
+
+  "cartPage": {
+    "title": "Корзина",
+    "items": "Предмет/ов",
+    "price": "Цена",
+    "total": "Общая цена",
+    "sum": "Сумма",
+    "order": "Заказать"
+  },
+
+  "sidebar": {
+    "search": "Поиск",
+    "filterTitle": "Фильтр по цене",
+    "from": "От",
+    "to": "До",
+    "categories": "Категории",
+    "laptop": "Ноутбук",
+    "smartphone": "Смартфон",
+    "notebook": "Планшет",
+    "tv": "Телевизор",
+    "sortTitle": "Сортировать по цене",
+    "asc": "По возрастанию",
+    "desc": "По убыванию",
+    "ratingTitle": "Рейтинг",
+    "apply": "Применить",
+    "reset": "Сбросить филтьры"
+  },
+
+  "productCard": {
+    "category": {
+      "laptop": "Ноутбук",
+      "smartphone": "Смартфон",
+      "computer": "Компьютер",
+      "notebook": "Планшет",
+      "tv": "Телевизор"
+    },
+    "colorTitle": "Доступные цвета",
+    "addButton": "Добавить",
+    "colorError": "Пожалуйста выберите цвет!"
+  },
+
+  "profilePage": {
+    "profile": "Профиль",
+    "password": "Пароль",
+    "profileTitle": "Настройки профиля",
+    "passwordTitle": "Настройки пароля"
+  },
+
+  "profileSettings": {
+    "fullName": "Имя и Фамилия",
+    "email": "Почта",
+    "avatarChange": "Сменить фото",
+    "editBtn": "Изменить",
+    "saveBtn": "Сохранить",
+    "emailError": "Неверный формат почты"
+  },
+
+  "passwordSettings": {
+    "currentPassword": "Текущий пароль",
+    "newPassword": "Новый пароль",
+    "confirmNewPassword": "Повторите новый пароль",
+    "changeBtn": "Изменить"
+  }
+}

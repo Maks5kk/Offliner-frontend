@@ -24,6 +24,7 @@ import CartPopover from "../cartPopover/CartPopover";
 import useCartStore from "../../store/useCartStore";
 import useFavoriteStore from "../../store/useFavoriteStore";
 import FavoritePopover from "../favoritePopover/FavoritePopover";
+import { useTranslation } from "react-i18next";
 
 const settings = [
   { label: "Profile", route: routes.profile },
@@ -48,6 +49,8 @@ function Navbar() {
   const { authUser } = useAuthStore();
   const { cart, fetchCart } = useCartStore();
   const { favorite, fetchFavoriteList } = useFavoriteStore();
+
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     fetchCart();
@@ -105,7 +108,7 @@ function Navbar() {
             <TextField
               sx={{ bgcolor: "white", borderRadius: 1 }}
               fullWidth
-              placeholder="Search"
+              placeholder={t("navbar.searchPlaceholder") + "..."}
               id="search"
             />
           </Box>
@@ -165,12 +168,13 @@ function Navbar() {
                 <Typography sx={{ mr: 2, color: "white", fontWeight: "bold" }}>
                   {authUser.fullName}
                 </Typography>
-                <Tooltip title="Open settings">
+                <Tooltip title={t("navbar.settingsTooltip")}>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt={authUser.fullName}
                       src={
-                        authUser.avatar || "/static/images/avatar/default.jpg"
+                        authUser.profilePic ||
+                        "/static/images/avatar/default.jpg"
                       }
                     />
                   </IconButton>
@@ -193,7 +197,7 @@ function Navbar() {
                     >
                       <MenuItem onClick={handleCloseUserMenu}>
                         <Typography sx={{ textAlign: "center" }}>
-                          {setting.label}
+                          {t(`navbar.${setting.label.toLowerCase()}`)}
                         </Typography>
                       </MenuItem>
                     </LinkComponent>
