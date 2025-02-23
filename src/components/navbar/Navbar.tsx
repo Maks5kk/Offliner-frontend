@@ -20,6 +20,7 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
 import { useAuthStore } from "../../store/useAuthStore";
+import LanguageIcon from "@mui/icons-material/Language";
 import CartPopover from "../cartPopover/CartPopover";
 import useCartStore from "../../store/useCartStore";
 import useFavoriteStore from "../../store/useFavoriteStore";
@@ -39,18 +40,24 @@ const StyledBadge = styled(Badge)(() => ({
   },
 }));
 
+const languages = [
+  { code: "en", label: "English", flag: "EN" },
+  { code: "ru", label: "Русский", flag: "RUS" },
+];
+
 function Navbar() {
   const [anchorUser, setAnchorUser] = React.useState<HTMLElement | null>(null);
   const [cartPopoverAnchor, setCartPopoverAnchor] =
     React.useState<HTMLElement | null>(null);
   const [favoritePopoverAnchor, setFavoritePopoverAnchor] =
     React.useState<HTMLElement | null>(null);
+  const [anchorLang, setAnchorLang] = React.useState<HTMLElement | null>(null);
 
   const { authUser } = useAuthStore();
   const { cart, fetchCart } = useCartStore();
   const { favorite, fetchFavoriteList } = useFavoriteStore();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   React.useEffect(() => {
     fetchCart();
@@ -63,6 +70,15 @@ function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorUser(null);
+  };
+
+  const handleOpenLangMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorLang(event.currentTarget);
+  };
+
+  const handleChangeLanguage = (code: string) => {
+    i18n.changeLanguage(code);
+    setAnchorLang(null);
   };
 
   return (
@@ -214,6 +230,29 @@ function Navbar() {
                 </IconButton>
               </LinkComponent>
             )}
+            <Tooltip title={t("navbar.language")}>
+              <IconButton
+                onClick={handleOpenLangMenu}
+                sx={{ color: "lightgray", ml: "15px" }}
+              >
+                <LanguageIcon />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "10px" }}
+              anchorEl={anchorLang}
+              open={Boolean(anchorLang)}
+              onClose={() => setAnchorLang(null)}
+            >
+              {languages.map((lang) => (
+                <MenuItem
+                  key={lang.code}
+                  onClick={() => handleChangeLanguage(lang.code)}
+                >
+                  {lang.flag} {lang.label}
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
         </Toolbar>
       </Container>

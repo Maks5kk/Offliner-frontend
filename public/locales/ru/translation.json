@@ -7,7 +7,8 @@
     "logout": "Выйти",
     "favorite": "Избранное",
     "cart": "Корзина",
-    "login": "Войти"
+    "login": "Войти",
+    "language": "Изменить язык"
   },
 
   "favoritePopover": {
