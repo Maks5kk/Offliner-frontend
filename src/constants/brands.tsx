@@ -8,15 +8,15 @@ export const brands = [
   {
     logo: "../../Brands/Apple.png",
     name: "Apple",
-    filters: ["Laptops", "Phones", "Headphones", "Accessories"],
+    filters: ["Laptop", "Smartphone", "Headphones", "Accessories"],
   },
   {
     logo: "../../Brands/Xiaomi.png",
     name: "Xiaomi",
     filters: [
-      "Laptops",
-      "Phones",
-      "Headphones",
+      "Laptop",
+      "Smartphone",
+      "Computer",
       "Accessories",
       "TVs",
       "Other devices",
@@ -27,20 +27,20 @@ export const brands = [
   {
     logo: "../../Brands/Huawei.png",
     name: "Huawei",
-    filters: ["Laptops", "Phones", "Headphones", "Accessories", "Watches"],
+    filters: ["Laptop", "Smartphone", "Computer", "Accessories", "Watches"],
   },
   {
     logo: "../../Brands/Honor.png",
     name: "Honor",
-    filters: ["Phones", "Watches", "Accessories"],
+    filters: ["Laptop", "Smartphone", "Computer"],
   },
   {
     logo: "../../Brands/Samsung.png",
     name: "Samsung",
     filters: [
-      "Laptops",
-      "Phones",
-      "Headphones",
+      "Laptop",
+      "Smartphone",
+      "Computer",
       "Accessories",
       "TVs",
       "Fridges",

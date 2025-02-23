@@ -7,27 +7,27 @@ export type Categories = {
 export const categories = [
   {
     id: 1,
-    title: "Laptops",
+    title: "Laptop",
     imgSrc: "../../Laptop.png",
   },
   {
     id: 2,
-    title: "Phones",
+    title: "Smartphone",
     imgSrc: "../../Phones.png",
   },
   {
     id: 3,
-    title: "Computers",
+    title: "Computer",
     imgSrc: "../../Computers.png",
   },
   {
     id: 4,
-    title: "Headphones",
+    title: "Notebook",
     imgSrc: "../../Headphones.png",
   },
   {
     id: 5,
-    title: "TVs",
+    title: "TV",
     imgSrc: "../../TVs.png",
   },
   {

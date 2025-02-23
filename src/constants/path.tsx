@@ -2,7 +2,7 @@ export const routes = {
   home: "/",
   fallback: "*",
   productList: "/products",
-  product: "/product/:id",
+  product: "/product",
   basket: "/basket",
   login: "/login",
   logout: "/logout",

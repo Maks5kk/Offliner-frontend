@@ -25,6 +25,7 @@ interface ProductGridProps {
 interface Product {
   _id: string;
   name: string;
+  brand: string;
   description: string;
   category: string;
   colors: string[];
@@ -142,6 +143,16 @@ export default function ProductGrid({
                         }}
                       >
                         {product.name}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: "bold",
+                          mb: 1,
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {product.brand}
                       </Typography>
                       <Typography
                         variant="h6"

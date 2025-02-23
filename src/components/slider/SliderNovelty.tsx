@@ -3,6 +3,8 @@ import "../../../node_modules/swiper/swiper-bundle.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Box, Paper, Typography } from "@mui/material";
+import { LinkComponent } from "../ui/Link";
+import { routes } from "../../constants/path";
 
 export default function Slider() {
   return (
@@ -40,16 +42,25 @@ export default function Slider() {
             <Typography sx={{ fontWeight: "bolder", fontSize: "25px" }}>
               From only 1299$
             </Typography>
-            <Typography
+            <LinkComponent
+              to={routes.product}
               sx={{
-                fontWeight: "bolder",
-                fontSize: "25px",
-                mt: 3,
-                color: "red",
+                textDecoration: "none",
               }}
             >
-              Check now
-            </Typography>
+              <Typography
+                sx={{
+                  fontWeight: "bolder",
+                  fontSize: "25px",
+                  mt: 3,
+                  color: "red",
+                  width: 200,
+                  "&:hover": { color: "black", cursor: "pointer" },
+                }}
+              >
+                Check now
+              </Typography>
+            </LinkComponent>
           </Box>
         </Paper>
       </SwiperSlide>
@@ -80,16 +91,20 @@ export default function Slider() {
             <Typography sx={{ fontWeight: "bolder", fontSize: "25px" }}>
               From only 1799$
             </Typography>
-            <Typography
-              sx={{
-                fontWeight: "bolder",
-                fontSize: "25px",
-                mt: 3,
-                color: "red",
-              }}
-            >
-              Check now
-            </Typography>
+            <LinkComponent to={routes.product} sx={{ textDecoration: "none" }}>
+              <Typography
+                sx={{
+                  fontWeight: "bolder",
+                  fontSize: "25px",
+                  mt: 3,
+                  color: "red",
+                  width: 200,
+                  "&:hover": { color: "white", cursor: "pointer" },
+                }}
+              >
+                Check now
+              </Typography>
+            </LinkComponent>
           </Box>
         </Paper>
       </SwiperSlide>

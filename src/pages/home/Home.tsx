@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import {Typography} from "@mui/material";
+import { Typography } from "@mui/material";
 import { categories } from "../../constants/categories";
 import Slider from "../../components/slider/SliderNovelty";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,25 +9,25 @@ import { brands } from "../../constants/brands";
 import { banners } from "../../constants/banners";
 import { products } from "../../constants/products";
 import { Autoplay } from "swiper/modules";
-import { sortCardsByRating} from "./filter.ts";
+import { sortCardsByRating } from "./filter.ts";
 import { ProductCard } from "../../components/ui/ProductCard.tsx";
 import Banner from "../../components/ui/Banner.tsx";
 import Categories from "../../components/categories/Categories.tsx";
 import BrandsList from "../../components/brandsList/BrandsList.tsx";
-import ModalPanel from "../../components/slidePanel/ModalPanel.tsx";
+import ModalPanel from "../../components/modalPanel/ModalPanel.tsx";
 
 type modalBrand = {
   open: boolean;
   brand: string;
   filters: string[];
-  type: string;
+  category: string;
 };
 
 export default function Home() {
   const [modalBrand, setModalBrand] = React.useState<modalBrand>({
     open: false,
     brand: "",
-    type: "",
+    category: "",
     filters: [],
   });
 
@@ -104,7 +104,7 @@ export default function Home() {
               style={{ padding: 10 }}
             >
               {filteredProductsByRating.map((product) => (
-                <SwiperSlide key={product.id}>
+                <SwiperSlide key={product._id}>
                   <ProductCard product={product} />
                 </SwiperSlide>
               ))}
@@ -115,11 +115,11 @@ export default function Home() {
       <Paper sx={{ p: 2, mt: 1 }}>
         <Box>
           <Banner
-            title="hello"
-            newPrice="1000"
-            oldPrice="2000"
+            title="Google Pixel 9"
+            installment="227 р./мес. в рассрочку Minipay на 11 мес."
+            oldPrice="30,990 руб."
+            newPrice="25,500 руб."
             imageUrl={banners[0].imageUrl}
-            installment="это ч"
           />
         </Box>
         <Box>
@@ -129,6 +129,7 @@ export default function Home() {
               fontWeight: "bold",
               color: "#1976d2",
               mb: 3,
+              mt: 3,
             }}
           >
             Products on discount!
@@ -144,7 +145,7 @@ export default function Home() {
           >
             {products.map((product) =>
               product.discount ? (
-                <SwiperSlide key={product.id}>
+                <SwiperSlide key={product._id}>
                   <ProductCard product={product} />
                 </SwiperSlide>
               ) : (

@@ -15,6 +15,7 @@ export interface Review {
 export interface Product {
   _id: string;
   name: string;
+  brand: string;
   description: string;
   category: string;
   colors: string[];
@@ -34,6 +35,7 @@ const fetchProducts = async (
       price_from: searchParams.get("price_from"),
       price_to: searchParams.get("price_to"),
       category: searchParams.get("category"),
+      brand: searchParams.get("brand"),
       rating: searchParams.get("rating"),
       sort: searchParams.get("sort"),
     };

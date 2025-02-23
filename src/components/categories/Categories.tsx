@@ -1,11 +1,10 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
-import { handleCategory } from "../../pages/home/filter";
 import { Categories as CategoryType } from "../../constants/categories";
 
 interface CategoriesProps {
-  categories: CategoryType[]; 
+  categories: CategoryType[];
 }
 
 export default function Categories({ categories }: CategoriesProps) {
@@ -23,12 +22,9 @@ export default function Categories({ categories }: CategoriesProps) {
         <LinkComponent
           key={category.id}
           sx={{ textDecoration: "none" }}
-          to={routes.productList}
+          to={routes.productList + `?category=${category.title}`}
         >
           <Paper
-            onClick={() => {
-              handleCategory(category.title);
-            }}
             key={category.title}
             sx={{
               width: "100%",
@@ -40,7 +36,7 @@ export default function Categories({ categories }: CategoriesProps) {
               },
             }}
           >
-            <img src={category.imgSrc} height={80} />
+            <img src={category.imgSrc} width={100} height={80} />
             <Typography sx={{ textAlign: "center", pt: 1 }}>
               {category.title}
             </Typography>

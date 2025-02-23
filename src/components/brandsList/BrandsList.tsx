@@ -8,7 +8,7 @@ interface BrandProps {
       open: boolean;
       brand: string;
       filters: string[];
-      type: string;
+      category: string;
     }>
   >;
 }
@@ -33,7 +33,7 @@ export default function BrandsList({ brands, setModalBrand }: BrandProps) {
               open: prev.brand === brand.name ? false : true,
               brand: prev.brand === brand.name ? "" : brand.name,
               filters: brand.filters ?? [],
-              type: "",
+              category: "",
             }));
           }}
           aria-label="apple"

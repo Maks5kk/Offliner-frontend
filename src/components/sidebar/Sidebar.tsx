@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import _ from "lodash";
 import { MAX_PRICE, MIN_PRICE } from "../../constants/price";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([
@@ -23,7 +24,13 @@ const Sidebar = () => {
     MAX_PRICE,
   ]);
 
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const location = useLocation();
+  const searchParameters = new URLSearchParams(location.search);
+  const category = searchParameters.get("category") || "";
+  const brand = searchParameters.get("brand") || "";
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(category);
+  const [selectedBrand, setSelectedBrand] = useState<string>(brand);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -44,6 +51,12 @@ const Sidebar = () => {
     1000
   );
 
+  const handleBrandChange = (brand: string) => {
+    console.log("Selected Brand:", brand);
+    setSelectedBrand(brand);
+    searchParams.set("brand", brand);
+    setSearchParams(searchParams);
+  };
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
     searchParams.set("category", category);
@@ -74,6 +87,7 @@ const Sidebar = () => {
     setSearchParams({});
     setPriceRange([0, 5000]);
     setSelectedCategory("");
+    setSelectedBrand("");
   };
 
   const handleApplyFilters = () => {
@@ -149,6 +163,26 @@ const Sidebar = () => {
             />
           </ListItem>
         ))}
+      </RadioGroup>
+      <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 2 }}>
+        Brands
+      </Typography>
+      <RadioGroup
+        value={selectedBrand}
+        onChange={(e, value) => handleBrandChange(value)}
+      >
+        {["Apple", "Xiaomi", "Huawei", "Honor", "Samsung", "Bosch"].map(
+          (brand) => (
+            <ListItem key={brand} disablePadding>
+              <FormControlLabel
+                control={<Radio />}
+                label={brand}
+                value={brand}
+                sx={{ width: "100%" }}
+              />
+            </ListItem>
+          )
+        )}
       </RadioGroup>
 
       <Typography variant="h6" gutterBottom sx={{ mt: 3, mb: 2 }}>
