@@ -13,6 +13,17 @@ interface AuthState {
   login: (data: LoginData) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: UpdateProfileData) => Promise<void>;
+  forgotPassword: (data: ForgotPasswordData) => Promise<void>;
+  resetPassword: (data: ResetPasswordData) => Promise<void>;
+}
+
+interface ForgotPasswordData {
+  email: string;
+}
+
+interface ResetPasswordData {
+  token: string;
+  newPassword: string;
 }
 
 interface ErrorResponse {
@@ -155,6 +166,26 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
     } finally {
       set({ isUpdating: false });
+    }
+  },
+
+  forgotPassword: async (data: ForgotPasswordData) => {
+    try {
+      await api.post("/auth/forgot-password", { data });
+      toast.success("Please check your email!");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.error("Forgot password error:", error);
+    }
+  },
+
+  resetPassword: async (data: ResetPasswordData) => {
+    try {
+      await api.post("/auth/reset-password", data);
+      toast.success("Password successfully reset! You can now log in.");
+    } catch (error) {
+      toast.error("Error resetting password. Please try again.");
+      console.error("Reset password error:", error);
     }
   },
 }));

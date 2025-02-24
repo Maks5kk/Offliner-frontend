@@ -18,6 +18,12 @@ function App() {
   const Login = lazy(() => import("./pages/login/Login"));
   const Register = lazy(() => import("./pages/register/Register"));
   const Logout = lazy(() => import("./pages/logout/Logout"));
+  const ForgotPassword = lazy(
+    () => import("./pages/forgotPassword/ForgotPassword")
+  );
+  const ResetPassword = lazy(
+    () => import("./pages/resetPassword/ResetPassword")
+  );
 
   const { checkAuth } = useAuthStore();
 
@@ -43,6 +49,8 @@ function App() {
             <Route path={routes.basket} element={<Basket />} />
             <Route path={routes.productList} element={<ProductList />} />
             <Route path={routes.product} element={<Product />} />
+            <Route path={routes.forgotPassword} element={<ForgotPassword />} />
+            <Route path={routes.resetPassword} element={<ResetPassword />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

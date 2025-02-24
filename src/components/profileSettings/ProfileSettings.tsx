@@ -81,8 +81,6 @@ const ProfileSettings = () => {
     }
   };
 
-  
-
   return (
     <Box
       display="flex"

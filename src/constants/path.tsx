@@ -10,4 +10,6 @@ export const routes = {
   profile: "/profile",
   admin: "/administrator",
   favorite: "/favorite",
+  forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password/:token",
 };
