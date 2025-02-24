@@ -42,12 +42,15 @@ export default function Login() {
     clearErrors("formError");
   }, [clearErrors, email, password]);
 
+  useEffect(() => {
+    if (authUser) {
+      navigate("/");
+    }
+  }, [authUser, navigate]);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       await login(data);
-      if (authUser) {
-        navigate("/");
-      }
     } catch (error: any) {
       console.log("Login error:", error);
       if (error?.message) {
@@ -114,16 +117,26 @@ export default function Login() {
             <Button sx={{ mt: 3 }} type="submit" variant="contained" fullWidth>
               Login
             </Button>
-
-            <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>
-              Don't have an account?{" "}
-              <LinkComponent
-                to="/register"
-                style={{ color: "#1976d2", textDecoration: "none" }}
-              >
-                Sign up
-              </LinkComponent>
-            </Typography>
+            <Box>
+              <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>
+                Don't have an account?{" "}
+                <LinkComponent
+                  to="/register"
+                  style={{ color: "#1976d2", textDecoration: "none" }}
+                >
+                  Sign up
+                </LinkComponent>
+              </Typography>
+              <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>
+                Forgot your password?{" "}
+                <LinkComponent
+                  to="/forgot-password"
+                  style={{ color: "#1976d2", textDecoration: "none" }}
+                >
+                  Click!
+                </LinkComponent>
+              </Typography>
+            </Box>
           </form>
         </CardContent>
       </Card>
