@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import _ from "lodash";
 import { MAX_PRICE, MIN_PRICE } from "../../constants/price";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([
@@ -24,7 +25,7 @@ const Sidebar = () => {
   ]);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,28 +99,28 @@ const Sidebar = () => {
       }}
     >
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-        Search
+        {t("sidebar.search")}
       </Typography>
       <TextField
         fullWidth
-        label="Search..."
+        label={t("sidebar.search") + "..."}
         variant="outlined"
         onChange={handleSearchChange}
         sx={{ mb: 4 }}
       />
 
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-        Filter by price
+        {t("sidebar.filterTitle")}
       </Typography>
       <Grid2 container spacing={2} alignItems="center">
         <Grid2 sx={{ xs: 6 }}>
           <Typography variant="body2">
-            <b>From:</b> ${priceRange[0]}
+            <b>{t("sidebar.from")}:</b> ${priceRange[0]}
           </Typography>
         </Grid2>
         <Grid2 sx={{ xs: 6 }}>
           <Typography variant="body2">
-            <b>To:</b> ${priceRange[1]}
+            <b>{t("sidebar.to")}:</b> ${priceRange[1]}
           </Typography>
         </Grid2>
       </Grid2>
@@ -135,7 +136,7 @@ const Sidebar = () => {
       />
 
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-        Categories
+        {t("sidebar.categories")}
       </Typography>
       <RadioGroup
         value={selectedCategory}
@@ -145,7 +146,7 @@ const Sidebar = () => {
           <ListItem key={category} disablePadding>
             <FormControlLabel
               control={<Radio />}
-              label={category}
+              label={t(`sidebar.${category.toLowerCase()}`)}
               value={category}
               sx={{ width: "100%" }}
             />
@@ -154,7 +155,7 @@ const Sidebar = () => {
       </RadioGroup>
 
       <Typography variant="h6" gutterBottom sx={{ mt: 3, mb: 2 }}>
-        Sort by price
+        {t("sidebar.sortTitle")}
       </Typography>
       <Box sx={{ display: "flex", gap: 1 }}>
         <Box
@@ -173,7 +174,7 @@ const Sidebar = () => {
           }}
           onClick={() => handleButtonSortChange("asc")}
         >
-          Ascending
+          {t("sidebar.asc")}
         </Box>
         <Box
           component="button"
@@ -191,12 +192,12 @@ const Sidebar = () => {
           }}
           onClick={() => handleButtonSortChange("desc")}
         >
-          Descending
+          {t("sidebar.desc")}
         </Box>
       </Box>
 
       <Typography variant="h6" gutterBottom sx={{ mb: 2, mt: 2 }}>
-        Rating
+        {t("sidebar.ratingTitle")}
       </Typography>
       <List dense>
         {[5, 4, 3, 2].map((stars, index) => (
@@ -220,7 +221,7 @@ const Sidebar = () => {
           fullWidth
           onClick={handleApplyFilters}
         >
-          Apply
+          {t("sidebar.apply")}
         </Button>
         <Button
           variant="outlined"
@@ -228,7 +229,7 @@ const Sidebar = () => {
           fullWidth
           onClick={handleResetFilters}
         >
-          Reset Filters
+          {t("sidebar.reset")}
         </Button>
       </Box>
     </Box>

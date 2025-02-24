@@ -13,15 +13,18 @@ import { PhotoCamera } from "@mui/icons-material";
 import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useTranslation } from "react-i18next";
 
-const validationSchema = Yup.object().shape({
-  newEmail: Yup.string()
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format")
-    .required(),
-  newFullName: Yup.string().required(),
-  profilePicFile: Yup.mixed<File>().nullable().notRequired(),
-  profilePicUrl: Yup.string().notRequired(),
-});
+const getValidationSchema = (t: any) => {
+  return Yup.object().shape({
+    newEmail: Yup.string()
+      .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, t("profileSettings.emailError"))
+      .required(),
+    newFullName: Yup.string().required(),
+    profilePicFile: Yup.mixed<File>().nullable().notRequired(),
+    profilePicUrl: Yup.string().notRequired(),
+  });
+};
 
 interface Inputs {
   newEmail: string;
@@ -34,6 +37,8 @@ const ProfileSettings = () => {
   const { authUser, updateProfile, isUpdating } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { t } = useTranslation();
+  const validationSchema = getValidationSchema(t);
 
   const {
     register,
@@ -76,8 +81,6 @@ const ProfileSettings = () => {
     }
   };
 
-  console.log(watch());
-
   return (
     <Box
       display="flex"
@@ -88,7 +91,7 @@ const ProfileSettings = () => {
     >
       <Box display="flex" flexDirection="column" gap={2} flexGrow={1}>
         <TextField
-          label="Full Name"
+          label={t("profileSettings.fullName")}
           type="text"
           {...register("newFullName")}
           error={!!errors.newFullName}
@@ -96,7 +99,7 @@ const ProfileSettings = () => {
           helperText={errors.newFullName?.message || ""}
         />
         <TextField
-          label="Email"
+          label={t("profileSettings.email")}
           type="email"
           {...register("newEmail")}
           error={!!errors.newEmail}
@@ -111,11 +114,15 @@ const ProfileSettings = () => {
             onClick={handleFormSubmit}
             disabled={isUpdating}
           >
-            {isUpdating ? <CircularProgress size={24} /> : "Save"}
+            {isUpdating ? (
+              <CircularProgress size={24} />
+            ) : (
+              t("profileSettings.saveBtn")
+            )}
           </Button>
         ) : (
           <Button variant="outlined" onClick={() => setIsEditing(true)}>
-            Edit
+            {t("profileSettings.editBtn")}
           </Button>
         )}
       </Box>
@@ -151,7 +158,7 @@ const ProfileSettings = () => {
         </Box>
 
         <Typography variant="caption" sx={{ marginTop: 0.5 }}>
-          Change Avatar
+          {t("profileSettings.avatarChange")}
         </Typography>
 
         <input

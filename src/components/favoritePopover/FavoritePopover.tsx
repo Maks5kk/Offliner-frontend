@@ -5,6 +5,7 @@ import { Delete } from "@mui/icons-material";
 import useFavoriteStore from "../../store/useFavoriteStore";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
+import { useTranslation } from "react-i18next";
 
 export default function FavoritePopover({
   anchorEl,
@@ -17,6 +18,7 @@ export default function FavoritePopover({
 }) {
   const { favorite, addToFavorite } = useFavoriteStore();
   const isOpen = Boolean(anchorEl);
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -25,16 +27,16 @@ export default function FavoritePopover({
       onMouseEnter={onMouseEnter}
     >
       <Typography variant="h6" sx={styles.title}>
-        Favorite
+        {t("favoritePopover.title")}
       </Typography>
 
-      {favorite?.length ? (
+      {favorite && favorite?.length ? (
         <List>
           {favorite.map((item) => (
             <ListItem key={item.productId._id} sx={styles.listItem}>
               <Box sx={styles.card}>
                 <img
-                  src={item.productId.image}
+                  src={item.productId.image || ""}
                   alt={item.productId.name}
                   style={styles.image as CSSProperties}
                 />
@@ -48,7 +50,7 @@ export default function FavoritePopover({
                     </Typography>
                   </LinkComponent>
                   <Typography variant="body2" color="text.secondary">
-                    Price: ${item.productId.price}
+                    {t("favoritePopover.price")}: ${item.productId.price}
                   </Typography>
                 </Box>
                 <IconButton
@@ -62,12 +64,12 @@ export default function FavoritePopover({
           ))}
         </List>
       ) : (
-        <Typography>Your favorite list is empty</Typography>
+        <Typography>{t("favoritePopover.emptyMessage")}</Typography>
       )}
 
       <Box sx={styles.footer}>
         <LinkComponent to={routes.favorite} sx={styles.goToFavoritesLink}>
-          Go to favorite
+          {t("favoritePopover.link")}
         </LinkComponent>
       </Box>
     </Box>

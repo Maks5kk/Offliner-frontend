@@ -10,6 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = Yup.object().shape({
   currentPassword: Yup.string()
@@ -38,6 +39,7 @@ interface Inputs {
 export default function PasswordSettings() {
   const { updateProfile, isUpdating } = useAuthStore();
   const [serverError, setServerError] = useState("");
+  const { t } = useTranslation();
 
   const {
     register,
@@ -77,7 +79,7 @@ export default function PasswordSettings() {
   return (
     <Box display="flex" flexDirection="column" gap={2} width="100%">
       <TextField
-        label="Current Password"
+        label={t("passwordSettings.currentPassword")}
         type="password"
         {...register("currentPassword")}
         error={!!errors.currentPassword}
@@ -91,14 +93,14 @@ export default function PasswordSettings() {
       )}
 
       <TextField
-        label="New Password"
+        label={t("passwordSettings.newPassword")}
         type="password"
         {...register("newPassword")}
         error={!!errors.newPassword}
         helperText={errors.newPassword?.message || ""}
       />
       <TextField
-        label="Confirm New Password"
+        label={t("passwordSettings.confirmNewPassword")}
         type="password"
         {...register("confirmNewPassword")}
         error={!!errors.confirmNewPassword}
@@ -110,7 +112,7 @@ export default function PasswordSettings() {
         onClick={handleFormSubmit}
         disabled={isUpdating || !isValid}
       >
-        {isUpdating ? <CircularProgress /> : "Change"}
+        {isUpdating ? <CircularProgress /> : t("passwordSettings.changeBtn")}
       </Button>
     </Box>
   );

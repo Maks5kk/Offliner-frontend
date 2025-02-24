@@ -1,0 +1,92 @@
+{
+  "navbar": {
+    "searchPlaceholder": "Search",
+    "settingsTooltip": "Open settings",
+    "profile": "Profile",
+    "administrator": "Administrator",
+    "logout": "Logout",
+    "favorite": "Favorite",
+    "cart": "Cart",
+    "login": "Login",
+    "language": "Change language"
+  },
+
+  "favoritePopover": {
+    "title": "Favorite",
+    "price": "Price",
+    "link": "Go to favorite",
+    "emptyMessage": "Your favorite list is empty"
+  },
+
+  "cartPopover": {
+    "title": "Cart",
+    "quantity": "Quantity",
+    "price": "Price",
+    "link": "Go to cart",
+    "emptyMessage": "Your cart is empty"
+  },
+
+  "cartPage": {
+    "title": "Cart",
+    "items": "Item/s",
+    "price": "Price",
+    "total": "Total price",
+    "sum": "Sum",
+    "order": "Order",
+    "emptyMessage": "Your cart is empty"
+  },
+
+  "sidebar": {
+    "search": "Search",
+    "filterTitle": "Filter by price",
+    "from": "From",
+    "to": "To",
+    "categories": "Categories",
+    "laptop": "Laptop",
+    "smartphone": "Smartphone",
+    "notebook": "Notebook",
+    "tv": "TV",
+    "sortTitle": "Sort by price",
+    "asc": "Ascending",
+    "desc": "Descending",
+    "ratingTitle": "Rating",
+    "apply": "Apply",
+    "reset": "Reset filters"
+  },
+
+  "productCard": {
+    "category": {
+      "laptop": "Laptop",
+      "smartphone": "Smartphone",
+      "computer": "Computer",
+      "notebook": "Notebook",
+      "tv": "TV"
+    },
+    "colorTitle": "Available Colors",
+    "addButton": "Add to cart",
+    "colorError": "Please select a color!"
+  },
+
+  "profilePage": {
+    "profile": "Profile",
+    "password": "Password",
+    "profileTitle": "Profile Settings",
+    "passwordTitle": "Password Settings"
+  },
+
+  "profileSettings": {
+    "fullName": "Full Name",
+    "email": "Email",
+    "avatarChange": "Change Avatar",
+    "editBtn": "Edit",
+    "saveBtn": "Save",
+    "emailError": "Invalid email format"
+  },
+
+  "passwordSettings": {
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "changeBtn": "Change"
+  }
+}
