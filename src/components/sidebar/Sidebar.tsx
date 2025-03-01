@@ -16,7 +16,26 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import _ from "lodash";
 import { MAX_PRICE, MIN_PRICE } from "../../constants/price";
-import { useTranslation } from "react-i18next";
+import { useFormatMessage } from "../../hooks/useFormatMessage";
+
+const categories = [
+  {
+    label: "laptop",
+    value: "Laptop",
+  },
+  {
+    label: "smartphone",
+    value: "Smartphone",
+  },
+  {
+    label: "notebook",
+    value: "Notebook",
+  },
+  {
+    label: "tv",
+    value: "TV",
+  },
+] as const;
 
 const Sidebar = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([
@@ -25,8 +44,8 @@ const Sidebar = () => {
   ]);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const formattedMessage = useFormatMessage();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     searchParams.set("search", e.target.value);
@@ -99,28 +118,28 @@ const Sidebar = () => {
       }}
     >
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-        {t("sidebar.search")}
+        {formattedMessage("sidebar.search")}
       </Typography>
       <TextField
         fullWidth
-        label={t("sidebar.search") + "..."}
+        label={formattedMessage("sidebar.search") + "..."}
         variant="outlined"
         onChange={handleSearchChange}
         sx={{ mb: 4 }}
       />
 
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-        {t("sidebar.filterTitle")}
+        {formattedMessage("sidebar.filterTitle")}
       </Typography>
       <Grid2 container spacing={2} alignItems="center">
         <Grid2 sx={{ xs: 6 }}>
           <Typography variant="body2">
-            <b>{t("sidebar.from")}:</b> ${priceRange[0]}
+            <b>{formattedMessage("sidebar.from")}:</b> ${priceRange[0]}
           </Typography>
         </Grid2>
         <Grid2 sx={{ xs: 6 }}>
           <Typography variant="body2">
-            <b>{t("sidebar.to")}:</b> ${priceRange[1]}
+            <b>{formattedMessage("sidebar.to")}:</b> ${priceRange[1]}
           </Typography>
         </Grid2>
       </Grid2>
@@ -136,18 +155,18 @@ const Sidebar = () => {
       />
 
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-        {t("sidebar.categories")}
+        {formattedMessage("sidebar.categories")}
       </Typography>
       <RadioGroup
         value={selectedCategory}
         onChange={(e) => handleCategoryChange(e.target.value)}
       >
-        {["Laptop", "Smartphone", "Notebook", "TV"].map((category) => (
-          <ListItem key={category} disablePadding>
+        {categories.map((category) => (
+          <ListItem key={category.label} disablePadding>
             <FormControlLabel
               control={<Radio />}
-              label={t(`sidebar.${category.toLowerCase()}`)}
-              value={category}
+              label={formattedMessage(`sidebar.${category.label}`)}
+              value={category.value}
               sx={{ width: "100%" }}
             />
           </ListItem>
@@ -155,7 +174,7 @@ const Sidebar = () => {
       </RadioGroup>
 
       <Typography variant="h6" gutterBottom sx={{ mt: 3, mb: 2 }}>
-        {t("sidebar.sortTitle")}
+        {formattedMessage("sidebar.sortTitle")}
       </Typography>
       <Box sx={{ display: "flex", gap: 1 }}>
         <Box
@@ -174,7 +193,7 @@ const Sidebar = () => {
           }}
           onClick={() => handleButtonSortChange("asc")}
         >
-          {t("sidebar.asc")}
+          {formattedMessage("sidebar.asc")}
         </Box>
         <Box
           component="button"
@@ -192,12 +211,12 @@ const Sidebar = () => {
           }}
           onClick={() => handleButtonSortChange("desc")}
         >
-          {t("sidebar.desc")}
+          {formattedMessage("sidebar.desc")}
         </Box>
       </Box>
 
       <Typography variant="h6" gutterBottom sx={{ mb: 2, mt: 2 }}>
-        {t("sidebar.ratingTitle")}
+        {formattedMessage("sidebar.ratingTitle")}
       </Typography>
       <List dense>
         {[5, 4, 3, 2].map((stars, index) => (
@@ -221,7 +240,7 @@ const Sidebar = () => {
           fullWidth
           onClick={handleApplyFilters}
         >
-          {t("sidebar.apply")}
+          {formattedMessage("sidebar.apply")}
         </Button>
         <Button
           variant="outlined"
@@ -229,7 +248,7 @@ const Sidebar = () => {
           fullWidth
           onClick={handleResetFilters}
         >
-          {t("sidebar.reset")}
+          {formattedMessage("sidebar.reset")}
         </Button>
       </Box>
     </Box>

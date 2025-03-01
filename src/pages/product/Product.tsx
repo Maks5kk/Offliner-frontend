@@ -20,6 +20,7 @@ import { api } from "../../lib/axios";
 import useCartStore from "../../store/useCartStore";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage";
 import Loader from "../../components/Loader/Loader";
+import { useFormatMessage } from "../../hooks/useFormatMessage";
 
 const similarProducts = [
   {
@@ -86,7 +87,7 @@ const ProductPage = () => {
   const [error, setError] = useState(false);
 
   const { addToCart } = useCartStore();
-
+  const formattedMesasge = useFormatMessage();
   const { id } = useParams<{ id: string }>();
 
   const {
@@ -114,7 +115,10 @@ const ProductPage = () => {
   return (
     <>
       <Loader isLoading={isLoading} />
-      <ErrorMessage isError={isError} children="Error loading product" />
+      <ErrorMessage
+        isError={isError}
+        children={formattedMesasge("error.loadingProducts")}
+      />
 
       <Box bgcolor="#f5f5f5">
         <Box
@@ -181,7 +185,9 @@ const ProductPage = () => {
                     </Typography>
 
                     <Box mt={2}>
-                      <Typography variant="h6">Available Colors:</Typography>
+                      <Typography variant="h6">
+                        {formattedMesasge("productPage.availableCol")}
+                      </Typography>
                       <ButtonGroup
                         variant="outlined"
                         aria-label="outlined button group"
@@ -223,7 +229,7 @@ const ProductPage = () => {
                           color="error"
                           sx={{ mt: 1 }}
                         >
-                          Please select a color!
+                          {formattedMesasge("error.selectColor")}
                         </Typography>
                       )}
                     </Box>
@@ -240,7 +246,7 @@ const ProductPage = () => {
                         )
                       }
                     >
-                      Add to Cart
+                      {formattedMesasge("productPage.addBtn")}
                     </Button>
                   </CardContent>
                 </Grid>
@@ -248,7 +254,7 @@ const ProductPage = () => {
 
               <Box mt={4}>
                 <Typography variant="h5" fontWeight={600} gutterBottom>
-                  Specifications
+                  {formattedMesasge("productPage.spec")}
                 </Typography>
                 <Divider sx={{ mb: 2 }} />
                 <Grid container spacing={2}>
@@ -264,7 +270,7 @@ const ProductPage = () => {
 
               <Box mt={4}>
                 <Typography variant="h5" fontWeight={600} gutterBottom>
-                  Customer Reviews
+                  {formattedMesasge("productPage.reviewsTitle")}
                 </Typography>
                 <Divider sx={{ mb: 2 }} />
                 {product.reviews.map((review, index) => (
@@ -283,14 +289,14 @@ const ProductPage = () => {
                 ))}
                 <TextField
                   fullWidth
-                  label="Write a review..."
+                  label={formattedMesasge("productPage.writeReview")}
                   multiline
                   rows={4}
                   variant="outlined"
                   sx={{ mb: 2 }}
                 />
                 <Button variant="contained" color="primary">
-                  Submit Review
+                  {formattedMesasge("productPage.reviewBtn")}
                 </Button>
               </Box>
             </Card>
@@ -298,7 +304,7 @@ const ProductPage = () => {
 
           <Box ml={4} width={250}>
             <Typography variant="h6" fontWeight={600} gutterBottom>
-              Similar Products
+              {formattedMesasge("productPage.similProd")}
             </Typography>
             {similarProducts.map((item, index) => (
               <Card key={index} sx={{ mb: 2, p: 2, boxShadow: 2 }}>
@@ -316,7 +322,7 @@ const ProductPage = () => {
                     ${item.price}
                   </Typography>
                   <Button variant="contained" size="small" sx={{ mt: 1 }}>
-                    View
+                    {formattedMesasge("productPage.viewBtn")}
                   </Button>
                 </CardContent>
               </Card>

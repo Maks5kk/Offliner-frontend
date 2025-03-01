@@ -8,27 +8,24 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import * as Yup from "yup";
 import { useAuthStore } from "../../store/useAuthStore";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Email } from "@mui/icons-material";
 import { toast } from "react-toastify";
+import { useForgotPasswordValidationSchema } from "../../hooks/useForgotPasswordValidationSchema";
+import { useFormatMessage } from "../../hooks/useFormatMessage";
 
 interface Inputs {
   email: string;
   formError?: string;
 }
 
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Incorrect email format")
-    .required(),
-});
-
 export default function ForgotPassword() {
   const { forgotPassword } = useAuthStore();
+  const validationSchema = useForgotPasswordValidationSchema();
+  const formattedMessage = useFormatMessage();
 
   const onSubmit: SubmitHandler<Inputs> = async (email) => {
     try {
@@ -37,10 +34,10 @@ export default function ForgotPassword() {
       if (error.message) {
         setError("formError", {
           type: "manual",
-          message: error.message || "Invalid email",
+          message: error.message,
         });
       } else {
-        toast.error("An unknown error occurred");
+        toast.error(formattedMessage("error.unknownError"));
       }
     }
   };
@@ -81,12 +78,12 @@ export default function ForgotPassword() {
             fontWeight="bold"
             textAlign="center"
           >
-            Provide your email
+            {formattedMessage("passwordReset.header")}
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth margin="normal">
               <TextField
-                {...register("email", { required: "Email is required!" })}
+                {...register("email")}
                 label="Email"
                 variant="outlined"
                 error={!!errors.email}
@@ -94,7 +91,7 @@ export default function ForgotPassword() {
               <FormHelperText error>{errors.email?.message}</FormHelperText>
             </FormControl>
             <Button sx={{ mt: 3 }} type="submit" variant="contained" fullWidth>
-              Change your password
+              {formattedMessage("passwordReset.getLinkBtn")}
             </Button>
           </form>
         </CardContent>

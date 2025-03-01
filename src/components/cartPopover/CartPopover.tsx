@@ -12,7 +12,7 @@ import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
-import { useTranslation } from "react-i18next";
+import { useFormatMessage } from "../../hooks/useFormatMessage";
 
 export default function CartPopover({
   anchorEl,
@@ -25,7 +25,7 @@ export default function CartPopover({
 }) {
   const { cart, removeFromCart } = useCartStore();
   const isOpen = Boolean(anchorEl);
-  const { t } = useTranslation();
+  const formattedMessage = useFormatMessage();
 
   return (
     <Box
@@ -34,7 +34,7 @@ export default function CartPopover({
       onMouseEnter={onMouseEnter}
     >
       <Typography variant="h6" sx={styles.title}>
-        {t("cartPopover.title")}
+        {formattedMessage("cartPopover.title")}
       </Typography>
 
       {cart?.length ? (
@@ -52,9 +52,11 @@ export default function CartPopover({
               >
                 <ListItemText
                   primary={item.productId.name}
-                  secondary={`${t("cartPopover.quantity")}: ${
+                  secondary={`${formattedMessage("cartPopover.quantity")}: ${
                     item.quantity
-                  } | ${t("cartPopover.price")}: $${item.productId.price}`}
+                  } | ${formattedMessage("cartPopover.price")}: $${
+                    item.productId.price
+                  }`}
                 />
               </LinkComponent>
               <Typography variant="subtitle2" sx={styles.totalPrice}>
@@ -70,11 +72,13 @@ export default function CartPopover({
           ))}
         </List>
       ) : (
-        <Typography>{t("cartPopover.emptyMessage")}</Typography>
+        <Typography>{formattedMessage("cartPopover.emptyMessage")}</Typography>
       )}
 
       <LinkComponent to={routes.basket}>
-        <Typography sx={styles.goToCart}>{t("cartPopover.link")}</Typography>
+        <Typography sx={styles.goToCart}>
+          {formattedMessage("cartPopover.link")}
+        </Typography>
       </LinkComponent>
     </Box>
   );

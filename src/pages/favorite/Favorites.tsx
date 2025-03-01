@@ -11,16 +11,13 @@ import {
 import { Delete } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import useFavoriteStore from "../../store/useFavoriteStore";
-import { useEffect } from "react";
 import { LinkComponent } from "../../components/ui/Link";
+import { useFormatMessage } from "../../hooks/useFormatMessage";
 
 const Favorites = () => {
-  const { fetchFavoriteList, favorite, addToFavorite } = useFavoriteStore();
+  const { favorite, addToFavorite } = useFavoriteStore();
   const theme = useTheme();
-
-  useEffect(() => {
-    fetchFavoriteList();
-  }, []);
+  const formattedMessage = useFormatMessage();
 
   return (
     <Grid2 container spacing={3} padding={2}>
@@ -122,7 +119,7 @@ const Favorites = () => {
             }}
           >
             <Typography variant="h6" color="text.secondary">
-              Your favorites list is empty.
+              {formattedMessage("favoritePopover.emptyMessage")}
             </Typography>
           </Box>
         </Grid2>

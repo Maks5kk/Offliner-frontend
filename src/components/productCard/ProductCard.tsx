@@ -19,7 +19,7 @@ import {
   Star,
 } from "@mui/icons-material";
 import { LinkComponent } from "../ui/Link";
-import { useTranslation } from "react-i18next";
+import { useFormatMessage } from "../../hooks/useFormatMessage";
 
 interface Type {
   label: string;
@@ -56,6 +56,8 @@ interface Review {
   rating: number;
 }
 
+type Category = "laptop" | "smartphone" | "notebook" | "tv";
+
 export default function ProductCard({
   product,
   addToCart,
@@ -64,8 +66,7 @@ export default function ProductCard({
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const { t } = useTranslation();
-
+  const formattedMessage = useFormatMessage();
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
     setError(false);
@@ -80,12 +81,12 @@ export default function ProductCard({
     setSelectedColor("");
   };
 
-  const handleFavoriteClick = async () => {
+  const handleFavoriteClick = () => {
     try {
-      await addToFavorite(product._id);
+      addToFavorite(product._id);
       setIsFavorite((prev) => !prev);
     } catch (error) {
-      console.error("Error with add to favorite: ", error);
+      console.error(formattedMessage("error.addToFavorite"), error);
     }
   };
 
@@ -126,7 +127,9 @@ export default function ProductCard({
             <ComputerOutlined />
           )
         }
-        label={t(`productCard.category.${product.category.toLowerCase()}`)}
+        label={formattedMessage(
+          `productCard.category.${product.category.toLowerCase() as Category}`
+        )}
         sx={{
           mt: 2,
           ml: 2,
@@ -189,7 +192,7 @@ export default function ProductCard({
 
       <Box sx={{ padding: 1 }}>
         <Typography variant="body2" sx={{ mb: 1 }}>
-          {t("productCard.colorTitle")}:
+          {formattedMessage("productCard.colorTitle")}:
         </Typography>
         <Box sx={{ display: "flex", gap: "8px" }}>
           {product.types.map((type) => (
@@ -200,7 +203,9 @@ export default function ProductCard({
                 height: "20px",
                 backgroundColor: type.value,
                 border:
-                  selectedColor === type.value ? "2px solid black" : "none",
+                  selectedColor === type.value
+                    ? "2px solid black"
+                    : "1px solid lightgray",
                 "&:hover": {
                   border: "2px solid lightgray",
                 },
@@ -210,7 +215,7 @@ export default function ProductCard({
         </Box>
         {error && (
           <Typography variant="body2" color="error" sx={{ mt: 1 }}>
-            {t("productCard.colorError")}
+            {formattedMessage("productCard.colorError")}
           </Typography>
         )}
       </Box>
@@ -227,7 +232,7 @@ export default function ProductCard({
             fontWeight: "bold",
           }}
         >
-          {t("productCard.addButton")}
+          {formattedMessage("productCard.addButton")}
         </Button>
       </Box>
     </Card>

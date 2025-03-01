@@ -10,21 +10,10 @@ import {
 } from "@mui/material";
 import { useAuthStore } from "../../store/useAuthStore";
 import { PhotoCamera } from "@mui/icons-material";
-import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTranslation } from "react-i18next";
-
-const getValidationSchema = (t: any) => {
-  return Yup.object().shape({
-    newEmail: Yup.string()
-      .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, t("profileSettings.emailError"))
-      .required(),
-    newFullName: Yup.string().required(),
-    profilePicFile: Yup.mixed<File>().nullable().notRequired(),
-    profilePicUrl: Yup.string().notRequired(),
-  });
-};
+import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useProfileSettingsValidationSchema } from "../../hooks/useProfileSettingsValidationSchema";
 
 interface Inputs {
   newEmail: string;
@@ -37,8 +26,8 @@ const ProfileSettings = () => {
   const { authUser, updateProfile, isUpdating } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { t } = useTranslation();
-  const validationSchema = getValidationSchema(t);
+  const formattedMessage = useFormatMessage();
+  const validationSchema = useProfileSettingsValidationSchema();
 
   const {
     register,
@@ -91,7 +80,7 @@ const ProfileSettings = () => {
     >
       <Box display="flex" flexDirection="column" gap={2} flexGrow={1}>
         <TextField
-          label={t("profileSettings.fullName")}
+          label={formattedMessage("profileSettings.fullName")}
           type="text"
           {...register("newFullName")}
           error={!!errors.newFullName}
@@ -99,7 +88,7 @@ const ProfileSettings = () => {
           helperText={errors.newFullName?.message || ""}
         />
         <TextField
-          label={t("profileSettings.email")}
+          label={formattedMessage("profileSettings.email")}
           type="email"
           {...register("newEmail")}
           error={!!errors.newEmail}
@@ -117,12 +106,12 @@ const ProfileSettings = () => {
             {isUpdating ? (
               <CircularProgress size={24} />
             ) : (
-              t("profileSettings.saveBtn")
+              formattedMessage("profileSettings.saveBtn")
             )}
           </Button>
         ) : (
           <Button variant="outlined" onClick={() => setIsEditing(true)}>
-            {t("profileSettings.editBtn")}
+            {formattedMessage("profileSettings.editBtn")}
           </Button>
         )}
       </Box>
@@ -158,7 +147,7 @@ const ProfileSettings = () => {
         </Box>
 
         <Typography variant="caption" sx={{ marginTop: 0.5 }}>
-          {t("profileSettings.avatarChange")}
+          {formattedMessage("profileSettings.avatarChange")}
         </Typography>
 
         <input

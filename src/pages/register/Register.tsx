@@ -13,7 +13,8 @@ import { LinkComponent } from "../../components/ui/Link";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../../store/useAuthStore";
-import { EMAIL_REGEXP } from "../../constants/regex";
+import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../../constants/regex";
+import { useFormatMessage } from "../../hooks/useFormatMessage";
 
 interface Inputs {
   fullName: string;
@@ -38,7 +39,7 @@ export default function Register() {
   });
 
   const navigate = useNavigate();
-
+  const formattedMessage = useFormatMessage();
   const { signup, isSigningUp } = useAuthStore();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -53,107 +54,119 @@ export default function Register() {
 
       navigate("/");
     } catch (error) {
-      console.error("Registration error:", error);
-      toast.error("Error");
+      console.error(formattedMessage("error.registration"), error);
+      toast.error(formattedMessage("error.registration"));
     }
-  };
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <Card sx={{ width: "100%", maxWidth: 400, p: 3 }}>
-        <CardContent>
-          <Typography
-            variant="h4"
-            gutterBottom
-            color="#1976d2"
-            fontWeight="bold"
-            textAlign="center"
-          >
-            Register
-          </Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl fullWidth margin="normal">
-              <TextField
-                label="Full Name"
-                variant="outlined"
-                {...register("fullName", {
-                  required: "Name is required",
-                })}
-                error={!!errors.fullName}
-              />
-              <FormHelperText error>{errors.fullName?.message}</FormHelperText>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <TextField
-                label="Email"
-                variant="outlined"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: { value: EMAIL_REGEXP, message: "Invalid email" },
-                })}
-                error={!!errors.email}
-              />
-              <FormHelperText error>{errors.email?.message}</FormHelperText>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <TextField
-                type="password"
-                label="Password"
-                variant="outlined"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: { value: 8, message: "Minimum 8 characters" },
-                })}
-                error={!!errors.password}
-              />
-              <FormHelperText error>{errors.password?.message}</FormHelperText>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <TextField
-                type="password"
-                label="Confirm Password"
-                variant="outlined"
-                {...register("confirmPassword", {
-                  required: "Repeat your password",
-                  validate: (value) =>
-                    value === watch("password") || "Password does not match",
-                })}
-                error={!!errors.confirmPassword}
-              />
-              <FormHelperText error>
-                {errors.confirmPassword?.message}
-              </FormHelperText>
-            </FormControl>
-
-            <Button
-              sx={{ mt: 3 }}
-              type="submit"
-              variant="contained"
-              fullWidth
-              disabled={isSigningUp}
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Card sx={{ width: "100%", maxWidth: 400, p: 3 }}>
+          <CardContent>
+            <Typography
+              variant="h4"
+              gutterBottom
+              color="#1976d2"
+              fontWeight="bold"
+              textAlign="center"
             >
-              {isSigningUp ? "Loading..." : "Registration"}
-            </Button>
-
-            <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>
-              Already have an account?{" "}
-              <LinkComponent
-                to="/login"
-                style={{ color: "#1976d2", textDecoration: "none" }}
-              >
-                Login
-              </LinkComponent>
+              {formattedMessage("registerPage.register")}
             </Typography>
-          </form>
-        </CardContent>
-      </Card>
-    </Box>
-  );
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Full Name"
+                  variant="outlined"
+                  {...register("fullName", {
+                    required: formattedMessage("validation.fullNameReq"),
+                  })}
+                  error={!!errors.fullName}
+                />
+                <FormHelperText error>
+                  {errors.fullName?.message}
+                </FormHelperText>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  {...register("email", {
+                    required: formattedMessage("validation.emailRequired"),
+                    pattern: {
+                      value: EMAIL_REGEXP,
+                      message: formattedMessage("validation.emailError"),
+                    },
+                  })}
+                  error={!!errors.email}
+                />
+                <FormHelperText error>{errors.email?.message}</FormHelperText>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  type="password"
+                  label="Password"
+                  variant="outlined"
+                  {...register("password", {
+                    pattern: PASSWORD_REGEXP,
+                    required: formattedMessage("validation.passwordRequired"),
+                  })}
+                  error={!!errors.password}
+                />
+                <FormHelperText error>
+                  {errors.password?.message}
+                </FormHelperText>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  type="password"
+                  label="Confirm Password"
+                  variant="outlined"
+                  {...register("confirmPassword", {
+                    required: formattedMessage(
+                      "validation.passwordConfirmRequired"
+                    ),
+                    validate: (value) =>
+                      value === watch("password") ||
+                      formattedMessage("validation.passwordsMustMatch"),
+                  })}
+                  error={!!errors.confirmPassword}
+                />
+                <FormHelperText error>
+                  {errors.confirmPassword?.message}
+                </FormHelperText>
+              </FormControl>
+
+              <Button
+                sx={{ mt: 3 }}
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={isSigningUp}
+              >
+                {isSigningUp
+                  ? formattedMessage("registerPage.loading")
+                  : formattedMessage("registerPage.register")}
+              </Button>
+
+              <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>
+                {formattedMessage("registerPage.alreadyHave")}{" "}
+                <LinkComponent
+                  to="/login"
+                  style={{ color: "#1976d2", textDecoration: "none" }}
+                >
+                  {formattedMessage("registerPage.btn")}
+                </LinkComponent>
+              </Typography>
+            </form>
+          </CardContent>
+        </Card>
+      </Box>
+    );
+  };
 }

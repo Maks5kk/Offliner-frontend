@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useSearchParams } from "react-router-dom";
 import ProductGrid from "../../components/productGrid/ProductGrid";
+import { useFormatMessage } from "../../hooks/useFormatMessage";
 
 export interface Review {
   userId: string;
@@ -32,7 +33,8 @@ export interface Product {
 }
 
 const fetchProducts = async (
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
+  formattedMessage: (id: "error.loadingProducts") => string
 ): Promise<Product[]> => {
   try {
     const params = {
@@ -48,12 +50,13 @@ const fetchProducts = async (
 
     return response.data;
   } catch (error) {
-    throw new Error("Error in fetching products" + error);
+    throw new Error(formattedMessage("error.loadingProducts") + error);
   }
 };
 
 export default function ProductList() {
   const [searchParams] = useSearchParams();
+  const formattedMessage = useFormatMessage();
 
   const {
     data: products,
@@ -61,7 +64,7 @@ export default function ProductList() {
     isError,
   } = useQuery<Product[]>({
     queryKey: ["products", searchParams.toString()],
-    queryFn: () => fetchProducts(searchParams),
+    queryFn: () => fetchProducts(searchParams, formattedMessage),
   });
 
   return (

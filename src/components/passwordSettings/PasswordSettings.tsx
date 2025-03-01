@@ -7,28 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
-import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-
-const validationSchema = Yup.object().shape({
-  currentPassword: Yup.string()
-    .required("Current password is required")
-    .min(8, "Password must be at least 8 characters"),
-  newPassword: Yup.string()
-    .required("New password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .matches(/\d/, "Password must contain at least one number")
-    .matches(
-      /[@$!%*?&]/,
-      "Password must contain at least one special character"
-    ),
-  confirmNewPassword: Yup.string()
-    .oneOf([Yup.ref("newPassword")], "Passwords must match")
-    .required("Repeat new password please!"),
-});
+import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { usePasswordValidationSchema } from "../../hooks/usePasswordValidationSchema";
 
 interface Inputs {
   currentPassword: string;
@@ -39,8 +21,8 @@ interface Inputs {
 export default function PasswordSettings() {
   const { updateProfile, isUpdating } = useAuthStore();
   const [serverError, setServerError] = useState("");
-  const { t } = useTranslation();
-
+  const formattedMessage = useFormatMessage();
+  const validationSchema = usePasswordValidationSchema();
   const {
     register,
     handleSubmit,
@@ -79,7 +61,7 @@ export default function PasswordSettings() {
   return (
     <Box display="flex" flexDirection="column" gap={2} width="100%">
       <TextField
-        label={t("passwordSettings.currentPassword")}
+        label={formattedMessage("passwordSettings.currentPassword")}
         type="password"
         {...register("currentPassword")}
         error={!!errors.currentPassword}
@@ -93,14 +75,14 @@ export default function PasswordSettings() {
       )}
 
       <TextField
-        label={t("passwordSettings.newPassword")}
+        label={formattedMessage("passwordSettings.newPassword")}
         type="password"
         {...register("newPassword")}
         error={!!errors.newPassword}
         helperText={errors.newPassword?.message || ""}
       />
       <TextField
-        label={t("passwordSettings.confirmNewPassword")}
+        label={formattedMessage("passwordSettings.confirmNewPassword")}
         type="password"
         {...register("confirmNewPassword")}
         error={!!errors.confirmNewPassword}
@@ -112,7 +94,11 @@ export default function PasswordSettings() {
         onClick={handleFormSubmit}
         disabled={isUpdating || !isValid}
       >
-        {isUpdating ? <CircularProgress /> : t("passwordSettings.changeBtn")}
+        {isUpdating ? (
+          <CircularProgress />
+        ) : (
+          formattedMessage("passwordSettings.changeBtn")
+        )}
       </Button>
     </Box>
   );
