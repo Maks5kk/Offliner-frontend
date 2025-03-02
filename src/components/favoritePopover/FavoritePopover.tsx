@@ -2,10 +2,10 @@ import { Box, Typography, List, ListItem, IconButton } from "@mui/material";
 import styles from "./FavoritePopover.styles";
 import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
-import useFavoriteStore from "../../store/useFavoriteStore";
+import useFavoriteStore from "@store/useFavoriteStore";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export default function FavoritePopover({
   anchorEl,

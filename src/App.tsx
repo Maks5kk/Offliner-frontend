@@ -3,33 +3,33 @@ import "./App.css";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { routes } from "./constants/path";
-import Navbar from "./components/navbar/Navbar";
+import Navbar from "@components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
-import { useAuthStore } from "./store/useAuthStore";
 import { IntlProvider } from "react-intl";
 import enLocale from "./public/locales/en";
 import ruLocale from "./public/locales/ru";
-import useFavoriteStore from "./store/useFavoriteStore";
-import useCartStore from "./store/useCartStore";
+import { useAuthStore } from "@store/useAuthStore";
+import useFavoriteStore from "@store/useFavoriteStore";
+import useCartStore from "@store/useCartStore";
+
+const Home = lazy(() => import("@pages/home/Home.tsx"));
+const ProductList = lazy(() => import("@pages/productList/ProductList.tsx"));
+const Product = lazy(() => import("@pages/product/Product.tsx"));
+const Basket = lazy(() => import("@pages/basket/Basket.tsx"));
+const Profile = lazy(() => import("@pages/profile/Profile.tsx"));
+const Admin = lazy(() => import("@pages/admin/Admin.tsx"));
+const Favorite = lazy(() => import("@pages/favorite/Favorites.tsx"));
+const Login = lazy(() => import("@pages/login/Login.tsx"));
+const Register = lazy(() => import("@pages/register/Register.tsx"));
+const Logout = lazy(() => import("@pages/logout/Logout.tsx"));
+const ForgotPassword = lazy(
+  () => import("@pages/forgotPassword/ForgotPassword.tsx")
+);
+const ResetPassword = lazy(
+  () => import("@pages/resetPassword/ResetPassword.tsx")
+);
 
 function App() {
-  const Home = lazy(() => import("./pages/home/Home"));
-  const ProductList = lazy(() => import("./pages/productList/ProductList"));
-  const Product = lazy(() => import("./pages/product/Product"));
-  const Basket = lazy(() => import("./pages/basket/Basket"));
-  const Profile = lazy(() => import("./pages/profile/Profile"));
-  const Admin = lazy(() => import("./pages/admin/Admin"));
-  const Favorite = lazy(() => import("./pages/favorite/Favorites"));
-  const Login = lazy(() => import("./pages/login/Login"));
-  const Register = lazy(() => import("./pages/register/Register"));
-  const Logout = lazy(() => import("./pages/logout/Logout"));
-  const ForgotPassword = lazy(
-    () => import("./pages/forgotPassword/ForgotPassword")
-  );
-  const ResetPassword = lazy(
-    () => import("./pages/resetPassword/ResetPassword")
-  );
-
   const { checkAuth } = useAuthStore();
   const { fetchFavoriteList } = useFavoriteStore();
   const { fetchCart } = useCartStore();

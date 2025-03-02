@@ -19,7 +19,9 @@ import {
   Star,
 } from "@mui/icons-material";
 import { LinkComponent } from "../ui/Link";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { Category } from "shared/types";
+import { COLORS } from "shared/constants";
 
 interface Type {
   label: string;
@@ -55,8 +57,6 @@ interface Review {
   comment: string;
   rating: number;
 }
-
-type Category = "laptop" | "smartphone" | "notebook" | "tv";
 
 export default function ProductCard({
   product,
@@ -160,7 +160,7 @@ export default function ProductCard({
         </Typography>
         <Typography
           variant="h6"
-          sx={{ fontWeight: "bold", color: "#2196F3", mb: 1 }}
+          sx={{ fontWeight: "bold", color: COLORS.primary, mb: 1 }}
         >
           ${product.price}
         </Typography>

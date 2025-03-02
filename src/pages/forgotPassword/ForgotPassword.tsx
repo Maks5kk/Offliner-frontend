@@ -8,14 +8,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useAuthStore } from "../../store/useAuthStore";
+import { useAuthStore } from "@store/useAuthStore";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Email } from "@mui/icons-material";
 import { toast } from "react-toastify";
-import { useForgotPasswordValidationSchema } from "../../hooks/useForgotPasswordValidationSchema";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useForgotPasswordValidationSchema } from "@hooks/useForgotPasswordValidationSchema";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { COLORS } from "shared/constants";
 
 interface Inputs {
   email: string;
@@ -74,7 +75,7 @@ export default function ForgotPassword() {
           <Typography
             variant="h4"
             gutterBottom
-            color="#1976d2"
+            color={COLORS.primary}
             fontWeight="bold"
             textAlign="center"
           >

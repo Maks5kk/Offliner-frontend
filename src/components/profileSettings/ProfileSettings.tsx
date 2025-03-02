@@ -8,12 +8,13 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
-import { useAuthStore } from "../../store/useAuthStore";
+import { useAuthStore } from "@store/useAuthStore";
 import { PhotoCamera } from "@mui/icons-material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
-import { useProfileSettingsValidationSchema } from "../../hooks/useProfileSettingsValidationSchema";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { useProfileSettingsValidationSchema } from "@hooks/useProfileSettingsValidationSchema";
+import { COLORS } from "shared/constants";
 
 interface Inputs {
   newEmail: string;
@@ -138,7 +139,7 @@ const ProfileSettings = () => {
               borderRadius: "50%",
               padding: "8px",
               "&:hover": {
-                backgroundColor: "#e0e0e0",
+                backgroundColor: COLORS.gray,
               },
             }}
           >

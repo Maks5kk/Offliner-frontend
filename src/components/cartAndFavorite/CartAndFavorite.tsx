@@ -1,20 +1,20 @@
 import { Badge, Box, IconButton, styled } from "@mui/material";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
-import useFavoriteStore from "../../store/useFavoriteStore";
-import useCartStore from "../../store/useCartStore";
-import FavoritePopover from "../favoritePopover/FavoritePopover";
+import useFavoriteStore from "@store/useFavoriteStore";
+import useCartStore from "@store/useCartStore";
+import FavoritePopover from "@components/favoritePopover/FavoritePopover";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import CartPopover from "../cartPopover/CartPopover";
+import CartPopover from "@components/cartPopover/CartPopover";
 import React from "react";
 
-const StyledBadge = styled(Badge)(() => ({
-  "& .MuiBadge-badge": {
-    color: "black",
-    backgroundColor: "white",
-  },
-}));
+const StyledBadge = styled(Badge)`
+  & .MuiBadge-badge {
+    color: black;
+    background-color: white;
+  }
+`;
 
 export function CartAndFavorite() {
   const { favorite } = useFavoriteStore();

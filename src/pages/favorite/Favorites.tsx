@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { motion } from "framer-motion";
-import useFavoriteStore from "../../store/useFavoriteStore";
-import { LinkComponent } from "../../components/ui/Link";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import useFavoriteStore from "@store/useFavoriteStore";
+import { LinkComponent } from "@components/ui/Link";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 const Favorites = () => {
   const { favorite, addToFavorite } = useFavoriteStore();

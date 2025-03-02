@@ -1,5 +1,5 @@
 import { Box, TextField } from "@mui/material";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export function Search() {
   const formattedMessage = useFormatMessage();

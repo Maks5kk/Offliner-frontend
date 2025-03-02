@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, MenuItem, IconButton, Tooltip } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 const languages = [
   { code: "en", label: "English", flag: "EN" },

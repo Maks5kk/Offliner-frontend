@@ -7,10 +7,10 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
-import { useAuthStore } from "../../store/useAuthStore";
+import { useAuthStore } from "@store/useAuthStore";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 type UserMenuProps = {
   onOpen: (event: React.MouseEvent<HTMLElement>) => void;

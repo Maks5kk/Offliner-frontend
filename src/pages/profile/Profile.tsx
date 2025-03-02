@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Box, Tabs, Tab, Typography, Card, CardContent } from "@mui/material";
-import ProfileSettings from "../../components/profileSettings/ProfileSettings";
-import PasswordSettings from "../../components/passwordSettings/PasswordSettings";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import ProfileSettings from "@components/profileSettings/ProfileSettings";
+import PasswordSettings from "@components/passwordSettings/PasswordSettings";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export default function SettingsPage() {
   const [tabIndex, setTabIndex] = useState(0);

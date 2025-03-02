@@ -1,4 +1,4 @@
-import { useAuthStore } from "../../store/useAuthStore";
+import { useAuthStore } from "@store/useAuthStore";
 import {
   Box,
   Button,
@@ -9,8 +9,8 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
-import { usePasswordValidationSchema } from "../../hooks/usePasswordValidationSchema";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { usePasswordValidationSchema } from "@hooks/usePasswordValidationSchema";
 
 interface Inputs {
   currentPassword: string;

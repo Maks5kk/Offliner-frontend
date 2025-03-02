@@ -8,13 +8,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useAuthStore } from "../../store/useAuthStore";
+import { useAuthStore } from "@store/useAuthStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useResetPasswordValidationSchema } from "../../hooks/useResetPasswordValidationSchema";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useResetPasswordValidationSchema } from "@hooks/useResetPasswordValidationSchema";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { COLORS } from "shared/constants";
 
 interface Inputs {
   newPassword: string;
@@ -73,7 +74,7 @@ export default function ResetPassword() {
           <Typography
             variant="h4"
             gutterBottom
-            color="#1976d2"
+            color={COLORS.primary}
             fontWeight="bold"
             textAlign="center"
           >
