@@ -128,6 +128,10 @@ const enLocale: typeof ruLocale = {
   "registerPage.loading": "Loading...",
   "registerPage.alreadyHave": "Already have an account?",
   "registerPage.btn": "Login",
+  "registerPage.password": "Password",
+  "registerPage.confirmPassword": "Confirm Password",
+  "registerPage.email": "Email",
+  "registerPage.fullName": "Full Name",
 
   "auth.signupSuccess": "Account created successfully!",
   "auth.loginSuccess": "Login successful!",

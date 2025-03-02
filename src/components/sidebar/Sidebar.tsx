@@ -16,7 +16,8 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import _ from "lodash";
 import { MAX_PRICE, MIN_PRICE } from "../../constants/price";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { COLORS } from "shared/constants";
 
 const categories = [
   {
@@ -186,7 +187,7 @@ const Sidebar = () => {
             cursor: "pointer",
             borderRadius: "4px",
             backgroundColor:
-              searchParams.get("sort") === "asc" ? "#1976d2" : "#e0e0e0",
+              searchParams.get("sort") === "asc" ? COLORS.primary : COLORS.gray,
             color: searchParams.get("sort") === "asc" ? "#fff" : "#000",
             border: "none",
             fontSize: "16px",
@@ -204,7 +205,9 @@ const Sidebar = () => {
             cursor: "pointer",
             borderRadius: "4px",
             backgroundColor:
-              searchParams.get("sort") === "desc" ? "#1976d2" : "#e0e0e0",
+              searchParams.get("sort") === "desc"
+                ? COLORS.primary
+                : COLORS.gray,
             color: searchParams.get("sort") === "desc" ? "#fff" : "#000",
             border: "none",
             fontSize: "16px",

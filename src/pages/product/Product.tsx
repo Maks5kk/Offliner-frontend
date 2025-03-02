@@ -17,10 +17,10 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
-import useCartStore from "../../store/useCartStore";
-import ErrorMessage from "../../components/errorMessage/ErrorMessage";
-import Loader from "../../components/Loader/Loader";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import useCartStore from "@store/useCartStore";
+import ErrorMessage from "@components/errorMessage/ErrorMessage";
+import Loader from "@components/Loader/Loader";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 const similarProducts = [
   {

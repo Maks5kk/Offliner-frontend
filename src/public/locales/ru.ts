@@ -126,6 +126,10 @@ export default {
   "registerPage.loading": "Загрузка...",
   "registerPage.alreadyHave": "Уже есть аккаунт?",
   "registerPage.btn": "Войти",
+  "registerPage.password": "Пароль",
+  "registerPage.confirmPassword": "Подтвердите пароль",
+  "registerPage.email": "Почта",
+  "registerPage.fullName": "Полное имя",
 
   "auth.signupSuccess": "Аккаунт создан успешно!",
   "auth.loginSuccess": "Вы успешно вошли!",

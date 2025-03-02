@@ -9,13 +9,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { LinkComponent } from "../../components/ui/Link";
-import { useAuthStore } from "../../store/useAuthStore";
+import { LinkComponent } from "@components/ui/Link";
+import { useAuthStore } from "@store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 import { EMAIL_REGEXP } from "../../constants/regex";
+import { COLORS } from "shared/constants";
 
 interface Inputs {
   email: string;
@@ -80,7 +81,7 @@ export default function Login() {
           <Typography
             variant="h4"
             gutterBottom
-            color="#1976d2"
+            color={COLORS.primary}
             fontWeight="bold"
             textAlign="center"
           >
@@ -129,7 +130,7 @@ export default function Login() {
                 {formattedMessage("loginPage.dontHave")}
                 <LinkComponent
                   to="/register"
-                  style={{ color: "#1976d2", textDecoration: "none" }}
+                  style={{ color: COLORS.primary, textDecoration: "none" }}
                 >
                   {formattedMessage("loginPage.signUp")}
                 </LinkComponent>
@@ -138,7 +139,7 @@ export default function Login() {
                 {formattedMessage("loginPage.forgotPass")}{" "}
                 <LinkComponent
                   to="/forgot-password"
-                  style={{ color: "#1976d2", textDecoration: "none" }}
+                  style={{ color: COLORS.primary, textDecoration: "none" }}
                 >
                   {formattedMessage("loginPage.click")}
                 </LinkComponent>

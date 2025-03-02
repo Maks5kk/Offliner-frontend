@@ -9,14 +9,14 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import useCartStore from "../../store/useCartStore";
+import useCartStore from "@store/useCartStore";
 import {
   AddCircleOutline,
   Delete,
   RemoveCircleOutline,
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export default function Basket() {
   const { cart, totalPrice, addToCart, removeFromCart } = useCartStore();

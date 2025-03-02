@@ -8,13 +8,13 @@ import {
   Container,
 } from "@mui/material";
 import { LinkComponent } from "../ui/Link";
-import { useAuthStore } from "../../store/useAuthStore";
-import { Logo } from "../logo/Logo";
-import { Search } from "../search/Search";
-import UserMenu from "../userMenu/UserMenu";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
-import { CartAndFavorite } from "../cartAndFavorite/CartAndFavorite";
-import LanguageMenu from "../languageMenu/LangMenu";
+import { useAuthStore } from "@store/useAuthStore";
+import { Logo } from "@components/logo/Logo";
+import { Search } from "@components/search/Search";
+import UserMenu from "@components/userMenu/UserMenu";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { CartAndFavorite } from "@components/cartAndFavorite/CartAndFavorite";
+import LanguageMenu from "@components//languageMenu/LangMenu";
 
 type NavbarProps = {
   onChangeLanguage: (code: "ru" | "en") => void;

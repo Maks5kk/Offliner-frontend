@@ -1,6 +1,6 @@
 export enum Locales {
-  Ru = "ru",
-  En = "en",
+  RU = "ru",
+  EN = "en",
 }
 
 export type MessageIds = FormatjsIntl.Message extends {

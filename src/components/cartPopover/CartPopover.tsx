@@ -6,13 +6,13 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
-import useCartStore from "../../store/useCartStore";
+import useCartStore from "@store/useCartStore";
 import styles from "./CartPopover.styles";
 import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export default function CartPopover({
   anchorEl,

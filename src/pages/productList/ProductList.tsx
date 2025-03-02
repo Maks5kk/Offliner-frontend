@@ -2,10 +2,10 @@ import { Box } from "@mui/material";
 import { api } from "../../lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-import Sidebar from "../../components/sidebar/Sidebar";
+import Sidebar from "@components/sidebar/Sidebar";
 import { useSearchParams } from "react-router-dom";
-import ProductGrid from "../../components/productGrid/ProductGrid";
-import { useFormatMessage } from "../../hooks/useFormatMessage";
+import ProductGrid from "@components/productGrid/ProductGrid";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export interface Review {
   userId: string;
