@@ -9,11 +9,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { LinkComponent } from "../../components/ui/Link";
-import { useAuthStore } from "../../store/useAuthStore";
+import { LinkComponent } from "@components/ui/Link";
+import { useAuthStore } from "@store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { EMAIL_REGEXP } from "../../constants/regex";
+import { COLORS } from "shared/constants";
 
 interface Inputs {
   email: string;
@@ -35,8 +38,8 @@ export default function Login() {
 
   const { login, authUser } = useAuthStore();
   const navigate = useNavigate();
-
   const { email, password } = watch();
+  const formattedMessage = useFormatMessage();
 
   useEffect(() => {
     clearErrors("formError");
@@ -52,14 +55,14 @@ export default function Login() {
     try {
       await login(data);
     } catch (error: any) {
-      console.log("Login error:", error);
+      console.log(formattedMessage("error.loginError"), error);
       if (error?.message) {
         setError("formError", {
           type: "manual",
-          message: error.message || "Invalid credentials",
+          message: error.message || formattedMessage("error.invalidCred"),
         });
       } else {
-        toast.error("An unknown error occurred");
+        toast.error(formattedMessage("error.unknownError"));
       }
     }
   };
@@ -78,18 +81,21 @@ export default function Login() {
           <Typography
             variant="h4"
             gutterBottom
-            color="#1976d2"
+            color={COLORS.primary}
             fontWeight="bold"
             textAlign="center"
           >
-            Login
+            {formattedMessage("loginPage.login")}
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth margin="normal">
               <TextField
                 label="Email"
                 variant="outlined"
-                {...register("email", { required: "Email is required" })}
+                {...register("email", {
+                  required: formattedMessage("validation.emailRequired"),
+                  pattern: EMAIL_REGEXP,
+                })}
                 error={!!errors.email}
               />
               <FormHelperText error>{errors.email?.message}</FormHelperText>
@@ -100,7 +106,9 @@ export default function Login() {
                 type="password"
                 label="Password"
                 variant="outlined"
-                {...register("password", { required: "Password is required" })}
+                {...register("password", {
+                  required: formattedMessage("validation.passwordRequired"),
+                })}
                 error={!!errors.password}
               />
               <FormHelperText error>{errors.password?.message}</FormHelperText>
@@ -115,25 +123,25 @@ export default function Login() {
             )}
 
             <Button sx={{ mt: 3 }} type="submit" variant="contained" fullWidth>
-              Login
+              {formattedMessage("loginPage.login")}
             </Button>
             <Box>
               <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>
-                Don't have an account?{" "}
+                {formattedMessage("loginPage.dontHave")}
                 <LinkComponent
                   to="/register"
-                  style={{ color: "#1976d2", textDecoration: "none" }}
+                  style={{ color: COLORS.primary, textDecoration: "none" }}
                 >
-                  Sign up
+                  {formattedMessage("loginPage.signUp")}
                 </LinkComponent>
               </Typography>
               <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>
-                Forgot your password?{" "}
+                {formattedMessage("loginPage.forgotPass")}{" "}
                 <LinkComponent
                   to="/forgot-password"
-                  style={{ color: "#1976d2", textDecoration: "none" }}
+                  style={{ color: COLORS.primary, textDecoration: "none" }}
                 >
-                  Click!
+                  {formattedMessage("loginPage.click")}
                 </LinkComponent>
               </Typography>
             </Box>

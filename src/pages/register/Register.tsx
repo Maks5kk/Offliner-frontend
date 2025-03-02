@@ -9,11 +9,13 @@ import {
   Typography,
 } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { LinkComponent } from "../../components/ui/Link";
+import { LinkComponent } from "@components/ui/Link";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuthStore } from "../../store/useAuthStore";
-import { EMAIL_REGEXP } from "../../constants/regex";
+import { useAuthStore } from "@store/useAuthStore";
+import { EMAIL_REGEXP, PASSWORD_REGEXP } from "../../constants/regex";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { COLORS } from "shared/constants";
 
 interface Inputs {
   fullName: string;
@@ -38,7 +40,7 @@ export default function Register() {
   });
 
   const navigate = useNavigate();
-
+  const formattedMessage = useFormatMessage();
   const { signup, isSigningUp } = useAuthStore();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -53,8 +55,8 @@ export default function Register() {
 
       navigate("/");
     } catch (error) {
-      console.error("Registration error:", error);
-      toast.error("Error");
+      console.error(formattedMessage("error.registration"), error);
+      toast.error(formattedMessage("error.registration"));
     }
   };
 
@@ -72,19 +74,19 @@ export default function Register() {
           <Typography
             variant="h4"
             gutterBottom
-            color="#1976d2"
+            color={COLORS.primary}
             fontWeight="bold"
             textAlign="center"
           >
-            Register
+            {formattedMessage("registerPage.register")}
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth margin="normal">
               <TextField
-                label="Full Name"
+                label={formattedMessage("registerPage.fullName")}
                 variant="outlined"
                 {...register("fullName", {
-                  required: "Name is required",
+                  required: formattedMessage("validation.fullNameReq"),
                 })}
                 error={!!errors.fullName}
               />
@@ -92,11 +94,14 @@ export default function Register() {
             </FormControl>
             <FormControl fullWidth margin="normal">
               <TextField
-                label="Email"
+                label={formattedMessage("registerPage.email")}
                 variant="outlined"
                 {...register("email", {
-                  required: "Email is required",
-                  pattern: { value: EMAIL_REGEXP, message: "Invalid email" },
+                  required: formattedMessage("validation.emailRequired"),
+                  pattern: {
+                    value: EMAIL_REGEXP,
+                    message: formattedMessage("validation.emailError"),
+                  },
                 })}
                 error={!!errors.email}
               />
@@ -105,11 +110,11 @@ export default function Register() {
             <FormControl fullWidth margin="normal">
               <TextField
                 type="password"
-                label="Password"
+                label={formattedMessage("registerPage.password")}
                 variant="outlined"
                 {...register("password", {
-                  required: "Password is required",
-                  minLength: { value: 8, message: "Minimum 8 characters" },
+                  pattern: PASSWORD_REGEXP,
+                  required: formattedMessage("validation.passwordRequired"),
                 })}
                 error={!!errors.password}
               />
@@ -118,12 +123,15 @@ export default function Register() {
             <FormControl fullWidth margin="normal">
               <TextField
                 type="password"
-                label="Confirm Password"
+                label={formattedMessage("registerPage.confirmPassword")}
                 variant="outlined"
                 {...register("confirmPassword", {
-                  required: "Repeat your password",
+                  required: formattedMessage(
+                    "validation.passwordConfirmRequired"
+                  ),
                   validate: (value) =>
-                    value === watch("password") || "Password does not match",
+                    value === watch("password") ||
+                    formattedMessage("validation.passwordsMustMatch"),
                 })}
                 error={!!errors.confirmPassword}
               />
@@ -139,16 +147,18 @@ export default function Register() {
               fullWidth
               disabled={isSigningUp}
             >
-              {isSigningUp ? "Loading..." : "Registration"}
+              {isSigningUp
+                ? formattedMessage("registerPage.loading")
+                : formattedMessage("registerPage.register")}
             </Button>
 
             <Typography variant="body2" textAlign="center" sx={{ mt: 2 }}>
-              Already have an account?{" "}
+              {formattedMessage("registerPage.alreadyHave")}{" "}
               <LinkComponent
                 to="/login"
-                style={{ color: "#1976d2", textDecoration: "none" }}
+                style={{ color: COLORS.primary, textDecoration: "none" }}
               >
-                Login
+                {formattedMessage("registerPage.btn")}
               </LinkComponent>
             </Typography>
           </form>

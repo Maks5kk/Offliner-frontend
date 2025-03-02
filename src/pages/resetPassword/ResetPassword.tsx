@@ -8,27 +8,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useAuthStore } from "../../store/useAuthStore";
+import { useAuthStore } from "@store/useAuthStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-const validationSchema = Yup.object().shape({
-  newPassword: Yup.string()
-    .required("New password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .matches(/\d/, "Password must contain at least one number")
-    .matches(
-      /[@$!%*?&]/,
-      "Password must contain at least one special character"
-    ),
-  confirmNewPassword: Yup.string()
-    .oneOf([Yup.ref("newPassword")], "Passwords must match")
-    .required("Repeat new password please!"),
-});
+import { useResetPasswordValidationSchema } from "@hooks/useResetPasswordValidationSchema";
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { COLORS } from "shared/constants";
 
 interface Inputs {
   newPassword: string;
@@ -40,6 +27,8 @@ export default function ResetPassword() {
   const { resetPassword } = useAuthStore();
   const { token } = useParams();
   const navigate = useNavigate();
+  const validationSchema = useResetPasswordValidationSchema();
+  const formattedMessage = useFormatMessage();
 
   const {
     register,
@@ -53,7 +42,7 @@ export default function ResetPassword() {
 
   const onSubmit: SubmitHandler<Inputs> = async ({ newPassword }) => {
     if (!token) {
-      toast.error("Invalid or missing reset token.");
+      toast.error(formattedMessage("error.token"));
       return;
     }
     try {
@@ -66,7 +55,7 @@ export default function ResetPassword() {
           message: error.message,
         });
       } else {
-        toast.error("An unknown error occurred");
+        toast.error(formattedMessage("error.unknownError"));
       }
     }
   };
@@ -85,17 +74,17 @@ export default function ResetPassword() {
           <Typography
             variant="h4"
             gutterBottom
-            color="#1976d2"
+            color={COLORS.primary}
             fontWeight="bold"
             textAlign="center"
           >
-            Reset Password
+            {formattedMessage("passwordReset.header")}
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth margin="normal">
               <TextField
                 type="password"
-                label="New Password"
+                label={formattedMessage("passwordReset.newPasswordLabel")}
                 variant="outlined"
                 {...register("newPassword")}
                 error={!!errors.newPassword}
@@ -108,7 +97,7 @@ export default function ResetPassword() {
             <FormControl fullWidth margin="normal">
               <TextField
                 type="password"
-                label="Confirm New Password"
+                label={formattedMessage("passwordReset.confirm")}
                 variant="outlined"
                 {...register("confirmNewPassword")}
                 error={!!errors.confirmNewPassword}
@@ -127,7 +116,7 @@ export default function ResetPassword() {
             )}
 
             <Button sx={{ mt: 3 }} type="submit" variant="contained" fullWidth>
-              Reset
+              {formattedMessage("passwordReset.btn")}
             </Button>
           </form>
         </CardContent>

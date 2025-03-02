@@ -2,10 +2,10 @@ import { Box, Typography, List, ListItem, IconButton } from "@mui/material";
 import styles from "./FavoritePopover.styles";
 import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
-import useFavoriteStore from "../../store/useFavoriteStore";
+import useFavoriteStore from "@store/useFavoriteStore";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
-import { useTranslation } from "react-i18next";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export default function FavoritePopover({
   anchorEl,
@@ -18,8 +18,7 @@ export default function FavoritePopover({
 }) {
   const { favorite, addToFavorite } = useFavoriteStore();
   const isOpen = Boolean(anchorEl);
-  const { t } = useTranslation();
-
+  const formattedMessage = useFormatMessage();
   return (
     <Box
       sx={{ ...styles.popover, display: isOpen ? "block" : "none" }}
@@ -27,7 +26,7 @@ export default function FavoritePopover({
       onMouseEnter={onMouseEnter}
     >
       <Typography variant="h6" sx={styles.title}>
-        {t("favoritePopover.title")}
+        {formattedMessage("favoritePopover.title")}
       </Typography>
 
       {favorite && favorite?.length ? (
@@ -50,7 +49,8 @@ export default function FavoritePopover({
                     </Typography>
                   </LinkComponent>
                   <Typography variant="body2" color="text.secondary">
-                    {t("favoritePopover.price")}: ${item.productId.price}
+                    {formattedMessage("favoritePopover.price")}: $
+                    {item.productId.price}
                   </Typography>
                 </Box>
                 <IconButton
@@ -64,12 +64,14 @@ export default function FavoritePopover({
           ))}
         </List>
       ) : (
-        <Typography>{t("favoritePopover.emptyMessage")}</Typography>
+        <Typography>
+          {formattedMessage("favoritePopover.emptyMessage")}
+        </Typography>
       )}
 
       <Box sx={styles.footer}>
         <LinkComponent to={routes.favorite} sx={styles.goToFavoritesLink}>
-          {t("favoritePopover.link")}
+          {formattedMessage("favoritePopover.link")}
         </LinkComponent>
       </Box>
     </Box>
