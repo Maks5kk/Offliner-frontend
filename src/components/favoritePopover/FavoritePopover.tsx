@@ -2,9 +2,10 @@ import { Box, Typography, List, ListItem, IconButton } from "@mui/material";
 import styles from "./FavoritePopover.styles";
 import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
-import useFavoriteStore from "../../store/useFavoriteStore";
+import useFavoriteStore from "@store/useFavoriteStore";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export default function FavoritePopover({
   anchorEl,
@@ -17,7 +18,7 @@ export default function FavoritePopover({
 }) {
   const { favorite, addToFavorite } = useFavoriteStore();
   const isOpen = Boolean(anchorEl);
-
+  const formattedMessage = useFormatMessage();
   return (
     <Box
       sx={{ ...styles.popover, display: isOpen ? "block" : "none" }}
@@ -25,16 +26,16 @@ export default function FavoritePopover({
       onMouseEnter={onMouseEnter}
     >
       <Typography variant="h6" sx={styles.title}>
-        Favorite
+        {formattedMessage("favoritePopover.title")}
       </Typography>
 
-      {favorite?.length ? (
+      {favorite && favorite?.length ? (
         <List>
           {favorite.map((item) => (
             <ListItem key={item.productId._id} sx={styles.listItem}>
               <Box sx={styles.card}>
                 <img
-                  src={item.productId.image}
+                  src={item.productId.image || ""}
                   alt={item.productId.name}
                   style={styles.image as CSSProperties}
                 />
@@ -48,7 +49,8 @@ export default function FavoritePopover({
                     </Typography>
                   </LinkComponent>
                   <Typography variant="body2" color="text.secondary">
-                    Price: ${item.productId.price}
+                    {formattedMessage("favoritePopover.price")}: $
+                    {item.productId.price}
                   </Typography>
                 </Box>
                 <IconButton
@@ -62,12 +64,14 @@ export default function FavoritePopover({
           ))}
         </List>
       ) : (
-        <Typography>Your favorite list is empty</Typography>
+        <Typography>
+          {formattedMessage("favoritePopover.emptyMessage")}
+        </Typography>
       )}
 
       <Box sx={styles.footer}>
         <LinkComponent to={routes.favorite} sx={styles.goToFavoritesLink}>
-          Go to favorite
+          {formattedMessage("favoritePopover.link")}
         </LinkComponent>
       </Box>
     </Box>

@@ -1,12 +1,10 @@
-// ProductGrid.tsx
-
 import { Box, Grid2 } from "@mui/material";
-import useCartStore from "../../store/useCartStore";
-import ProductCard from "../productCard/ProductCard";
-import Loader from "../Loader/Loader";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import useFavoriteStore from "../../store/useFavoriteStore";
-import { useState } from "react";
+import useCartStore from "@store/useCartStore";
+import ProductCard from "@components/productCard/ProductCard";
+import Loader from "@components/Loader/Loader";
+import ErrorMessage from "@components/errorMessage/ErrorMessage";
+import useFavoriteStore from "@store/useFavoriteStore";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 interface ProductGridProps {
   isLoading: boolean;
@@ -46,11 +44,15 @@ export default function ProductGrid({
 }: ProductGridProps) {
   const { addToCart } = useCartStore();
   const { addToFavorite } = useFavoriteStore();
+  const formattedMessage = useFormatMessage();
 
   return (
     <>
       <Loader isLoading={isLoading} />
-      <ErrorMessage isError={isError} children="Error loading products" />
+      <ErrorMessage
+        isError={isError}
+        children={formattedMessage("error.loadingProducts")}
+      />
 
       {!isError && !isLoading && (
         <Box sx={{ width: "75%" }}>

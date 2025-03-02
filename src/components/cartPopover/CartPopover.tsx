@@ -6,12 +6,13 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
-import useCartStore from "../../store/useCartStore";
+import useCartStore from "@store/useCartStore";
 import styles from "./CartPopover.styles";
 import { CSSProperties } from "react";
 import { Delete } from "@mui/icons-material";
 import { LinkComponent } from "../ui/Link";
 import { routes } from "../../constants/path";
+import { useFormatMessage } from "@hooks/useFormatMessage";
 
 export default function CartPopover({
   anchorEl,
@@ -24,6 +25,7 @@ export default function CartPopover({
 }) {
   const { cart, removeFromCart } = useCartStore();
   const isOpen = Boolean(anchorEl);
+  const formattedMessage = useFormatMessage();
 
   return (
     <Box
@@ -32,7 +34,7 @@ export default function CartPopover({
       onMouseEnter={onMouseEnter}
     >
       <Typography variant="h6" sx={styles.title}>
-        Cart
+        {formattedMessage("cartPopover.title")}
       </Typography>
 
       {cart?.length ? (
@@ -50,7 +52,11 @@ export default function CartPopover({
               >
                 <ListItemText
                   primary={item.productId.name}
-                  secondary={`Quantity: ${item.quantity} | Price: $${item.productId.price}`}
+                  secondary={`${formattedMessage("cartPopover.quantity")}: ${
+                    item.quantity
+                  } | ${formattedMessage("cartPopover.price")}: $${
+                    item.productId.price
+                  }`}
                 />
               </LinkComponent>
               <Typography variant="subtitle2" sx={styles.totalPrice}>
@@ -66,11 +72,13 @@ export default function CartPopover({
           ))}
         </List>
       ) : (
-        <Typography>Your cart is empty</Typography>
+        <Typography>{formattedMessage("cartPopover.emptyMessage")}</Typography>
       )}
 
       <LinkComponent to={routes.basket}>
-        <Typography sx={styles.goToCart}>Go to cart</Typography>
+        <Typography sx={styles.goToCart}>
+          {formattedMessage("cartPopover.link")}
+        </Typography>
       </LinkComponent>
     </Box>
   );

@@ -8,20 +8,13 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
-import { useAuthStore } from "../../store/useAuthStore";
+import { useAuthStore } from "@store/useAuthStore";
 import { PhotoCamera } from "@mui/icons-material";
-import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-const validationSchema = Yup.object().shape({
-  newEmail: Yup.string()
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format")
-    .required(),
-  newFullName: Yup.string().required(),
-  profilePicFile: Yup.mixed<File>().nullable().notRequired(),
-  profilePicUrl: Yup.string().notRequired(),
-});
+import { useFormatMessage } from "@hooks/useFormatMessage";
+import { useProfileSettingsValidationSchema } from "@hooks/useProfileSettingsValidationSchema";
+import { COLORS } from "shared/constants";
 
 interface Inputs {
   newEmail: string;
@@ -34,6 +27,8 @@ const ProfileSettings = () => {
   const { authUser, updateProfile, isUpdating } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const formattedMessage = useFormatMessage();
+  const validationSchema = useProfileSettingsValidationSchema();
 
   const {
     register,
@@ -76,8 +71,6 @@ const ProfileSettings = () => {
     }
   };
 
-  console.log(watch());
-
   return (
     <Box
       display="flex"
@@ -88,7 +81,7 @@ const ProfileSettings = () => {
     >
       <Box display="flex" flexDirection="column" gap={2} flexGrow={1}>
         <TextField
-          label="Full Name"
+          label={formattedMessage("profileSettings.fullName")}
           type="text"
           {...register("newFullName")}
           error={!!errors.newFullName}
@@ -96,7 +89,7 @@ const ProfileSettings = () => {
           helperText={errors.newFullName?.message || ""}
         />
         <TextField
-          label="Email"
+          label={formattedMessage("profileSettings.email")}
           type="email"
           {...register("newEmail")}
           error={!!errors.newEmail}
@@ -111,11 +104,15 @@ const ProfileSettings = () => {
             onClick={handleFormSubmit}
             disabled={isUpdating}
           >
-            {isUpdating ? <CircularProgress size={24} /> : "Save"}
+            {isUpdating ? (
+              <CircularProgress size={24} />
+            ) : (
+              formattedMessage("profileSettings.saveBtn")
+            )}
           </Button>
         ) : (
           <Button variant="outlined" onClick={() => setIsEditing(true)}>
-            Edit
+            {formattedMessage("profileSettings.editBtn")}
           </Button>
         )}
       </Box>
@@ -142,7 +139,7 @@ const ProfileSettings = () => {
               borderRadius: "50%",
               padding: "8px",
               "&:hover": {
-                backgroundColor: "#e0e0e0",
+                backgroundColor: COLORS.gray,
               },
             }}
           >
@@ -151,7 +148,7 @@ const ProfileSettings = () => {
         </Box>
 
         <Typography variant="caption" sx={{ marginTop: 0.5 }}>
-          Change Avatar
+          {formattedMessage("profileSettings.avatarChange")}
         </Typography>
 
         <input
